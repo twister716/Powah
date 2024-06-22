@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -72,23 +73,29 @@ public class ReactorBlock extends AbstractGeneratorBlock<ReactorBlock> {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
-        BlockEntity tileentity = world.getBlockEntity(pos);
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        BlockEntity tileentity = pLevel.getBlockEntity(pPos);
         if (tileentity instanceof ReactorTile reactor) {
             if (reactor.isBuilt()) {
                 Tank tank = reactor.getTank();
-                if (FluidUtil.interactWithFluidHandler(player, hand, tank)) {
+                if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
                     reactor.sync();
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 }
-                return super.use(state, world, pos, player, hand, result);
-            }
-        } else if (tileentity instanceof ReactorPartTile reactor) {
-            if (reactor.isBuilt() && reactor.core().isPresent()) {
-                return reactor.getBlock().use(state, world, reactor.getCorePos(), player, hand, result);
             }
         }
-        return super.use(state, world, pos, player, hand, result);
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result) {
+        BlockEntity tileentity = world.getBlockEntity(pos);
+        if (tileentity instanceof ReactorPartTile reactor) {
+            if (reactor.isBuilt() && reactor.core().isPresent()) {
+                return reactor.getBlock().useWithoutItem(state, world, reactor.getCorePos(), player, result);
+            }
+        }
+        return super.useWithoutItem(state, world, pos, player, result);
     }
 
     @Nullable

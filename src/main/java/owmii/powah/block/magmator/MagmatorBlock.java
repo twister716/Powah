@@ -4,10 +4,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -56,16 +58,17 @@ public class MagmatorBlock extends AbstractGeneratorBlock<MagmatorBlock> {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
-        BlockEntity tile = world.getBlockEntity(pos);
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        BlockEntity tile = pLevel.getBlockEntity(pPos);
         if (tile instanceof MagmatorTile magmator) {
             Tank tank = magmator.getTank();
-            if (FluidUtil.interactWithFluidHandler(player, hand, tank)) {
+            if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
                 magmator.sync();
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
         }
-        return super.use(state, world, pos, player, hand, result);
+
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override

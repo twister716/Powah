@@ -120,7 +120,7 @@ public class Info extends Page {
         }
         for (int i = 0; i < this.cache.size(); i++) {
             Component text = this.cache.get(i);
-            Text.drawString(text, x + 6, y + 7, screen.w / 2 - 5, 10, 0x38453c);
+            Text.drawString(gui, text, x + 6, y + 7, screen.w / 2 - 5, 10, 0x38453c);
             y += (i + 1 == this.cache.size() ? 0 : 3) + font.split(text, screen.w / 2 - 5).size() * 10;
         }
     }

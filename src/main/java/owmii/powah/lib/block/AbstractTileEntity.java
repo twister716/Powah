@@ -1,6 +1,7 @@
 package owmii.powah.lib.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -59,8 +60,9 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
     }
 
     @Override
-    public final void load(CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+
         readSync(tag);
 
         if (!tag.contains("#c")) { // Server only...
@@ -69,15 +71,15 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
     }
 
     @Override
-    protected final void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         writeSync(tag);
         saveServerOnly(tag);
     }
 
     @Override
-    public final CompoundTag getUpdateTag() {
-        var tag = saveWithoutMetadata();
+    public final CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        var tag = saveWithoutMetadata(registries);
         tag.putBoolean("#c", true); // mark client tag
         return tag;
     }

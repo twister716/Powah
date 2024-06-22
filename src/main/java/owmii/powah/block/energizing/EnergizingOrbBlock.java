@@ -18,6 +18,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -63,33 +64,27 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
-        ItemStack held = player.getItemInHand(hand);
-        BlockEntity tileentity = world.getBlockEntity(pos);
+    protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        BlockEntity tileentity = level.getBlockEntity(pos);
         if (tileentity instanceof EnergizingOrbTile) {
             EnergizingOrbTile orb = (EnergizingOrbTile) tileentity;
             Inventory inv = orb.getInventory();
             ItemStack output = inv.getStackInSlot(0);
-            ItemStack off = player.getOffhandItem();
-            // if (!(off.getItem() instanceof IWrench && ((IWrench) off.getItem()).getWrenchMode(off).link())) {
             if (held.isEmpty() || !output.isEmpty()) {
-                if (!world.isClientSide) {
+                if (!level.isClientSide) {
                     player.getInventory().placeItemBackInInventory(inv.removeNext());
                 }
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             } else {
-                // if (!world.isRemote) {
                 ItemStack copy = held.copy();
                 copy.setCount(1);
                 if (!inv.addNext(copy).isEmpty() && !player.isCreative()) {
                     held.shrink(1);
                 }
-                // }
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
-            // }
         }
-        return super.use(state, world, pos, player, hand, result);
+        return super.useItemOn(held, state, level, pos, player, hand, hitResult);
     }
 
     @Override
@@ -198,7 +193,7 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
             @Nullable BlockEntity te) {
         if (te instanceof EnergizingOrbTile orb) {
             if (orb.getBuffer().getCapacity() > 0) {
-                RenderSystem.getModelViewStack().pushPose();
+                RenderSystem.getModelViewStack().pushMatrix();
                 RenderSystem.enableBlend();
                 Minecraft mc = Minecraft.getInstance();
                 Font font = mc.font;
@@ -210,7 +205,7 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
                 gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 90, 0xffffff);
                 gui.drawString(font, s1, Math.round(x - (font.width(s1) / 2.0f)), y - 75, 0xffffff);
                 RenderSystem.disableBlend();
-                RenderSystem.getModelViewStack().popPose();
+                RenderSystem.getModelViewStack().popMatrix();
             }
         }
         return true;

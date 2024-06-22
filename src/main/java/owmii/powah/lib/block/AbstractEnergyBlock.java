@@ -86,7 +86,7 @@ public abstract class AbstractEnergyBlock<C extends IEnergyConfig<Tier>, B exten
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         Energy.ifPresent(stack, energy -> {
             addEnergyInfo(stack, energy, tooltip);
             addEnergyTransferInfo(stack, energy, tooltip);

@@ -138,12 +138,12 @@ public class CableBlock extends AbstractEnergyBlock<CableConfig, CableBlock> imp
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result) {
         Optional<Direction> hitSide = getHitSide(result.getLocation(), pos);
         if (hitSide.isPresent() && !canConnectEnergy(world, pos, hitSide.get())) {
             return InteractionResult.FAIL;
         }
-        return super.use(state, world, pos, player, hand, result);
+        return super.useWithoutItem(state, world, pos, player, result);
     }
 
     @Nullable
@@ -156,10 +156,10 @@ public class CableBlock extends AbstractEnergyBlock<CableConfig, CableBlock> imp
     }
 
     @Override
-    protected void additionalGuiData(FriendlyByteBuf buffer, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
-            BlockHitResult result) {
+    protected void additionalGuiData(FriendlyByteBuf buffer, BlockState state, Level world, BlockPos pos, Player player,
+                                     BlockHitResult result) {
         getHitSide(result.getLocation(), pos).ifPresent(side -> buffer.writeInt(side.get3DDataValue()));
-        super.additionalGuiData(buffer, state, world, pos, player, hand, result);
+        super.additionalGuiData(buffer, state, world, pos, player, result);
     }
 
     @Override

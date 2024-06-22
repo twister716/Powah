@@ -33,8 +33,7 @@ public class CubeModel extends Model {
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrix, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue,
-            float alpha) {
+    public void renderToBuffer(PoseStack matrix, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
         this.cube.render(matrix, buffer, packedLight, packedOverlay);
     }
 }

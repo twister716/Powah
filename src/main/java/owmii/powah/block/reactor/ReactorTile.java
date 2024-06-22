@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.CommonHooks;
@@ -275,7 +276,7 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
         if (this.carbon.isEmpty()) {
             ItemStack stack = this.inv.getStackInSlot(2);
             if (!stack.isEmpty()) {
-                int carbon = CommonHooks.getBurnTime(stack, null);
+                int carbon = stack.getBurnTime(RecipeType.SMELTING);
                 if (carbon > 0) {
                     this.carbon.setAll(carbon);
                     this.carbonTemp = 180;
@@ -344,7 +345,7 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
         if (slot == 1) {
             return ReactorFuel.getFuel(stack.getItem()) != null;
         } else if (slot == 2) {
-            return CommonHooks.getBurnTime(stack, null) > 0 && !stack.hasCraftingRemainingItem();
+            return stack.getBurnTime(RecipeType.SMELTING) > 0 && !stack.hasCraftingRemainingItem();
         } else if (slot == 3) {
             return stack.is(Tags.Items.DUSTS_REDSTONE) || stack.is(Tags.Items.STORAGE_BLOCKS_REDSTONE);
         } else if (slot == 4) {

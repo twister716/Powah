@@ -17,7 +17,8 @@ public abstract class AbstractModel<T extends AbstractTileEntity<?, ?>, R extend
 
     public abstract void render(T te, R renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov);
 
+    // We never render via normal entity rendering, we abuse these models to render via BlockEntityRenderer
     @Override
-    public void renderToBuffer(PoseStack matrix, VertexConsumer buffer, int light, int ov, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack p_103111_, VertexConsumer p_103112_, int p_103113_, int p_103114_, int p_350308_) {
     }
 }

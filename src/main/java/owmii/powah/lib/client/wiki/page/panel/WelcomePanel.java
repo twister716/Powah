@@ -50,14 +50,14 @@ public class WelcomePanel extends Panel {
     @Override
     public void render(GuiGraphics gui, int x, int y, int mx, int my, float pt, Font font, WikiScreen screen) {
         var globalStack = RenderSystem.getModelViewStack();
-        globalStack.pushPose();
+        globalStack.pushMatrix();
         globalStack.translate(x, y, 0.0F);
         globalStack.scale(2.0F, 2.0F, 1.0F);
         String s = getWiki().getModName();
         gui.drawString(font, s, Math.round((161 / 4.0F) - font.width(s) / 2.0F), 10, 0x444444, false);
-        globalStack.popPose();
+        globalStack.popMatrix();
 
-        globalStack.pushPose();
+        globalStack.pushMatrix();
         String s2 = "v" + getWiki().getModVersion();
         gui.drawString(font, s2, Math.round(x + 161 / 2.0F - font.width(s2) / 2.0F), y + 45, 0x999999, false);
 
@@ -67,7 +67,7 @@ public class WelcomePanel extends Panel {
             String s4 = screen.mc.player.getName().getString();
             gui.drawString(font, s4, Math.round(x + 161 / 2.0F - font.width(s4) / 2.0F), y + 115, 0x777777, false);
         }
-        globalStack.popPose();
+        globalStack.popMatrix();
         RenderSystem.applyModelViewMatrix();
     }
 }

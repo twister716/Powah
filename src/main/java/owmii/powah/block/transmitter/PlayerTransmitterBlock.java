@@ -77,14 +77,14 @@ public class PlayerTransmitterBlock extends AbstractEnergyBlock<ChargingConfig, 
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result) {
         if (state.getValue(TOP)) {
             BlockState bottomState = world.getBlockState(pos.below());
-            if (bottomState.getBlock() instanceof PlayerTransmitterBlock) {
-                return bottomState.getBlock().use(bottomState, world, pos.below(), player, hand, result);
+            if (bottomState.getBlock() instanceof PlayerTransmitterBlock transmitterBlock) {
+                return transmitterBlock.useWithoutItem(bottomState, world, pos.below(), player, result);
             }
         }
-        return super.use(state, world, pos, player, hand, result);
+        return super.useWithoutItem(state, world, pos, player, result);
     }
 
     @Override

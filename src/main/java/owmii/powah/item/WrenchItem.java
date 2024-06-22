@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -129,7 +130,7 @@ public class WrenchItem extends ItemBase implements IHudItem, IWrench {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(Component.translatable("info.powah.wrench.mode",
                 Component.translatable("info.powah.wrench.mode." + getWrenchMode(stack).name().toLowerCase())
                         .withStyle(ChatFormatting.YELLOW)));

@@ -10,7 +10,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
@@ -152,7 +151,7 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result) {
         BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof AbstractTileEntity) {
             MenuProvider provider = new MenuProvider() {
@@ -172,13 +171,13 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
                 if (player instanceof ServerPlayer serverPlayer) {
                     serverPlayer.openMenu(provider, buffer -> {
                         buffer.writeBlockPos(pos);
-                        additionalGuiData(buffer, state, world, pos, player, hand, result);
+                        additionalGuiData(buffer, state, world, pos, player, result);
                     });
                 }
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.use(state, world, pos, player, hand, result);
+        return super.useWithoutItem(state, world, pos, player, result);
     }
 
     @Nullable
@@ -186,8 +185,8 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
         return null;
     }
 
-    protected void additionalGuiData(FriendlyByteBuf buffer, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
-            BlockHitResult result) {
+    protected void additionalGuiData(FriendlyByteBuf buffer, BlockState state, Level world, BlockPos pos, Player player,
+                                     BlockHitResult result) {
     }
 
     @Override

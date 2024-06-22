@@ -1,9 +1,10 @@
 package owmii.powah.lib.client.util;
 
-import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.math.Transformation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -21,12 +22,12 @@ public class Text {
         return Style.EMPTY.withColor(TextColor.fromRgb(color));
     }
 
-    public static void drawString(FormattedText text, float x, float y, int w, int h, int color) {
+    public static void drawString(GuiGraphics gui, FormattedText text, float x, float y, int w, int h, int color) {
         Minecraft mc = Minecraft.getInstance();
         Font font = mc.font;
         var matrix4f = Transformation.identity().getMatrix();
         for (FormattedCharSequence processor : font.split(text, w)) {
-            MultiBufferSource.BufferSource impl = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
+            MultiBufferSource.BufferSource impl = gui.bufferSource();
             font.drawInBatch(processor, x, y, color, false, matrix4f, impl, Font.DisplayMode.NORMAL, 0, 15728880);
             impl.endBatch();
             y += h;
