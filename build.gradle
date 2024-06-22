@@ -108,6 +108,11 @@ processResources {
 
 neoForge {
     version = project.neoforge_version
+    mods {
+        powah {
+            modSourceSets = [sourceSets.main]
+        }
+    }
     runs {
         client {
             client()
