@@ -58,7 +58,7 @@ public class CreativeTabs {
                     output.accept(Itms.URANINITE.get());
 
                     for (var item : BuiltInRegistries.ITEM) {
-                        if (item instanceof ItemBlock<?> powahItem) {
+                        if (item instanceof ItemBlock<?>powahItem) {
                             if (powahItem.getCreativeTab() == MAIN_KEY) {
                                 output.accept(item);
                             }

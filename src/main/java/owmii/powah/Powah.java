@@ -178,7 +178,7 @@ public class Powah {
                     if (id.location().getNamespace().equals(MOD_ID)) {
                         var block = entry.getValue();
                         BlockItem blockItem;
-                        if (block instanceof IBlock<?, ?> iBlock) {
+                        if (block instanceof IBlock<?, ?>iBlock) {
                             blockItem = iBlock.getBlockItem(new Item.Properties(), CreativeTabs.MAIN_KEY);
                         } else {
                             blockItem = new ItemBlock<>(block, new Item.Properties(), CreativeTabs.MAIN_KEY);

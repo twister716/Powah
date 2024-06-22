@@ -1,5 +1,7 @@
 package owmii.powah.data;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -16,9 +18,6 @@ import owmii.powah.block.Blcks;
 import owmii.powah.block.Tier;
 import owmii.powah.block.energizing.EnergizingRecipe;
 import owmii.powah.item.Itms;
-
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
     public RecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
@@ -1898,19 +1897,39 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
     }
 
     private void energizingRecipes(RecipeOutput output) {
-        output.accept(Powah.id("energizing/blazing_crystal"), new EnergizingRecipe(Itms.BLAZING_CRYSTAL.toStack(), 120000, List.of(Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER))), null);
-        output.accept(Powah.id("energizing/blazing_crystal_2"), new EnergizingRecipe(Itms.BLAZING_CRYSTAL.toStack(), 120000, List.of(Ingredient.of(Tags.Items.RODS_BLAZE))), null);
-        output.accept(Powah.id("energizing/charged_snowball"), new EnergizingRecipe(Itms.CHARGED_SNOWBALL.toStack(), 500000, List.of(Ingredient.of(Items.SNOWBALL))), null);
-        output.accept(Powah.id("energizing/dry_ice"), new EnergizingRecipe(Blcks.DRY_ICE.toStack(), 10000, List.of(Ingredient.of(ITags.Items.ICES_BLUE), Ingredient.of(ITags.Items.ICES_BLUE))), null);
-        output.accept(Powah.id("energizing/ender_core"), new EnergizingRecipe(Itms.ENDER_CORE.toStack(), 50000, List.of(Ingredient.of(Items.ENDER_EYE), Ingredient.of(Itms.DIELECTRIC_CASING), Ingredient.of(Itms.CAPACITOR_BASIC_TINY))), null);
-        output.accept(Powah.id("energizing/energized_steel"), new EnergizingRecipe(Itms.ENERGIZED_STEEL.toStack(2), 10000, List.of(Ingredient.of(Tags.Items.INGOTS_IRON), Ingredient.of(Tags.Items.INGOTS_GOLD))), null);
-        output.accept(Powah.id("energizing/niotic_crystal"), new EnergizingRecipe(Itms.NIOTIC_CRYSTAL.toStack(), 300000, List.of(Ingredient.of(Tags.Items.GEMS_DIAMOND))), null);
-        output.accept(Powah.id("energizing/nitro_crystal"), new EnergizingRecipe(Itms.NITRO_CRYSTAL.toStack(16), 20000000, List.of(Ingredient.of(Tags.Items.NETHER_STARS), Ingredient.of(Tags.Items.STORAGE_BLOCKS_REDSTONE), Ingredient.of(Tags.Items.STORAGE_BLOCKS_REDSTONE), Ingredient.of(Blcks.BLAZING_CRYSTAL))), null);
-        output.accept(Powah.id("energizing/spirited_crystal"), new EnergizingRecipe(Itms.SPIRITED_CRYSTAL.toStack(), 1000000, List.of(Ingredient.of(Tags.Items.GEMS_EMERALD))), null);
-        output.accept(Powah.id("energizing/uraninite_from_ore"), new EnergizingRecipe(Itms.URANINITE.toStack(5), 50000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE))), null);
-        output.accept(Powah.id("energizing/uraninite_from_ore_dense"), new EnergizingRecipe(Itms.URANINITE.toStack(10), 100000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_DENSE))), null);
-        output.accept(Powah.id("energizing/uraninite_from_ore_poor"), new EnergizingRecipe(Itms.URANINITE.toStack(3), 25000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_POOR))), null);
-        output.accept(Powah.id("energizing/uraninite_from_raw"), new EnergizingRecipe(Itms.URANINITE.toStack(2), 2000, List.of(Ingredient.of(Itms.URANINITE_RAW))), null);
+        output.accept(Powah.id("energizing/blazing_crystal"),
+                new EnergizingRecipe(Itms.BLAZING_CRYSTAL.toStack(), 120000, List.of(Ingredient.of(Items.BLAZE_POWDER),
+                        Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER))),
+                null);
+        output.accept(Powah.id("energizing/blazing_crystal_2"),
+                new EnergizingRecipe(Itms.BLAZING_CRYSTAL.toStack(), 120000, List.of(Ingredient.of(Tags.Items.RODS_BLAZE))), null);
+        output.accept(Powah.id("energizing/charged_snowball"),
+                new EnergizingRecipe(Itms.CHARGED_SNOWBALL.toStack(), 500000, List.of(Ingredient.of(Items.SNOWBALL))), null);
+        output.accept(Powah.id("energizing/dry_ice"), new EnergizingRecipe(Blcks.DRY_ICE.toStack(), 10000,
+                List.of(Ingredient.of(ITags.Items.ICES_BLUE), Ingredient.of(ITags.Items.ICES_BLUE))), null);
+        output.accept(Powah.id("energizing/ender_core"),
+                new EnergizingRecipe(Itms.ENDER_CORE.toStack(), 50000,
+                        List.of(Ingredient.of(Items.ENDER_EYE), Ingredient.of(Itms.DIELECTRIC_CASING), Ingredient.of(Itms.CAPACITOR_BASIC_TINY))),
+                null);
+        output.accept(Powah.id("energizing/energized_steel"), new EnergizingRecipe(Itms.ENERGIZED_STEEL.toStack(2), 10000,
+                List.of(Ingredient.of(Tags.Items.INGOTS_IRON), Ingredient.of(Tags.Items.INGOTS_GOLD))), null);
+        output.accept(Powah.id("energizing/niotic_crystal"),
+                new EnergizingRecipe(Itms.NIOTIC_CRYSTAL.toStack(), 300000, List.of(Ingredient.of(Tags.Items.GEMS_DIAMOND))), null);
+        output.accept(Powah.id("energizing/nitro_crystal"),
+                new EnergizingRecipe(Itms.NITRO_CRYSTAL.toStack(16), 20000000,
+                        List.of(Ingredient.of(Tags.Items.NETHER_STARS), Ingredient.of(Tags.Items.STORAGE_BLOCKS_REDSTONE),
+                                Ingredient.of(Tags.Items.STORAGE_BLOCKS_REDSTONE), Ingredient.of(Blcks.BLAZING_CRYSTAL))),
+                null);
+        output.accept(Powah.id("energizing/spirited_crystal"),
+                new EnergizingRecipe(Itms.SPIRITED_CRYSTAL.toStack(), 1000000, List.of(Ingredient.of(Tags.Items.GEMS_EMERALD))), null);
+        output.accept(Powah.id("energizing/uraninite_from_ore"),
+                new EnergizingRecipe(Itms.URANINITE.toStack(5), 50000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE))), null);
+        output.accept(Powah.id("energizing/uraninite_from_ore_dense"),
+                new EnergizingRecipe(Itms.URANINITE.toStack(10), 100000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_DENSE))), null);
+        output.accept(Powah.id("energizing/uraninite_from_ore_poor"),
+                new EnergizingRecipe(Itms.URANINITE.toStack(3), 25000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_POOR))), null);
+        output.accept(Powah.id("energizing/uraninite_from_raw"),
+                new EnergizingRecipe(Itms.URANINITE.toStack(2), 2000, List.of(Ingredient.of(Itms.URANINITE_RAW))), null);
     }
 
     private void smelting(RecipeOutput output) {
