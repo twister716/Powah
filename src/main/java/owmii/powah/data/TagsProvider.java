@@ -74,6 +74,15 @@ public class TagsProvider {
                     .add(Blcks.DEEPSLATE_URANINITE_ORE_DENSE.get().asItem());
             tag(Tags.Items.ORES).addTag(ITags.Items.URANINITE_ORE);
 
+            tag(ITags.Items.URANINITE_ORE_REGULAR).add(Blcks.URANINITE_ORE.get().asItem(), Blcks.DEEPSLATE_URANINITE_ORE.get().asItem());
+            tag(Tags.Items.ORES).addTag(ITags.Items.URANINITE_ORE_REGULAR);
+
+            tag(ITags.Items.URANINITE_ORE_POOR).add(Blcks.URANINITE_ORE_POOR.get().asItem(), Blcks.DEEPSLATE_URANINITE_ORE_POOR.get().asItem());
+            tag(Tags.Items.ORES).addTag(ITags.Items.URANINITE_ORE_POOR);
+
+            tag(ITags.Items.URANINITE_ORE_DENSE).add(Blcks.URANINITE_ORE_DENSE.get().asItem(), Blcks.DEEPSLATE_URANINITE_ORE_DENSE.get().asItem());
+            tag(Tags.Items.ORES).addTag(ITags.Items.URANINITE_ORE_DENSE);
+
             tag(Tags.Items.STORAGE_BLOCKS).add(Blcks.URANINITE.get().asItem());
             tag(ITags.Items.URANINITE_BLOCK).add(Blcks.URANINITE.get().asItem());
 

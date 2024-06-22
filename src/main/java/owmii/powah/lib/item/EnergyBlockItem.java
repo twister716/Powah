@@ -10,7 +10,7 @@ import owmii.powah.lib.block.AbstractEnergyBlock;
 import owmii.powah.lib.client.wiki.page.panel.InfoBox;
 import owmii.powah.lib.logistics.Transfer;
 
-public class EnergyBlockItem<C extends IEnergyConfig<Tier>, B extends AbstractEnergyBlock<C, B>> extends ItemBlock<Tier, B>
+public class EnergyBlockItem<C extends IEnergyConfig<Tier>, B extends AbstractEnergyBlock<C, B>> extends ItemBlock<B>
         implements InfoBox.IInfoBoxHolder, IEnergyItemProvider, IEnergyContainingItem {
     public EnergyBlockItem(B block, Properties builder, @Nullable ResourceKey<CreativeModeTab> group) {
         super(block, builder, group);

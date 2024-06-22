@@ -7,6 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -30,7 +31,7 @@ import owmii.powah.block.Tiles;
 import owmii.powah.compat.curios.CuriosCompat;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.config.v2.PowahConfig;
-import owmii.powah.data.DataEvents;
+import owmii.powah.data.PowahDataGenerator;
 import owmii.powah.entity.Entities;
 import owmii.powah.inventory.Containers;
 import owmii.powah.item.CreativeTabs;
@@ -40,6 +41,7 @@ import owmii.powah.lib.block.IBlock;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.item.IEnergyContainingItem;
+import owmii.powah.lib.item.ItemBlock;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.network.Network;
 import owmii.powah.recipe.ReactorFuel;
@@ -86,7 +88,7 @@ public class Powah {
             PowahAPI.registerSolidCoolant(Blcks.DRY_ICE.get(), 712, -32);
         });
 
-        modEventBus.addListener(DataEvents::gatherData);
+        modEventBus.addListener(PowahDataGenerator::gatherData);
         NeoForge.EVENT_BUS.addListener((PlayerInteractEvent.RightClickBlock event) -> {
             if (event.getUseBlock() == TriState.FALSE) {
                 return;
@@ -171,9 +173,16 @@ public class Powah {
     private void setupBlockItems(IEventBus modEventBus) {
         modEventBus.addListener((RegisterEvent event) -> {
             if (event.getRegistryKey() == Registries.ITEM) {
-                for (var block : BuiltInRegistries.BLOCK) {
-                    if (block instanceof IBlock<?, ?>iBlock) {
-                        var blockItem = iBlock.getBlockItem(new Item.Properties(), CreativeTabs.MAIN_KEY);
+                for (var entry : BuiltInRegistries.BLOCK.entrySet()) {
+                    var id = entry.getKey();
+                    if (id.location().getNamespace().equals(MOD_ID)) {
+                        var block = entry.getValue();
+                        BlockItem blockItem;
+                        if (block instanceof IBlock<?, ?> iBlock) {
+                            blockItem = iBlock.getBlockItem(new Item.Properties(), CreativeTabs.MAIN_KEY);
+                        } else {
+                            blockItem = new ItemBlock<>(block, new Item.Properties(), CreativeTabs.MAIN_KEY);
+                        }
                         var name = BuiltInRegistries.BLOCK.getKey(block);
                         Registry.register(BuiltInRegistries.ITEM, name, blockItem);
                     }

@@ -1,5 +1,8 @@
 {
   "values": [
-    "#forge:ores/uraninite"
+    "#forge:ores/uraninite",
+    "#forge:ores/uraninite_regular",
+    "#forge:ores/uraninite_poor",
+    "#forge:ores/uraninite_dense"
   ]
 }

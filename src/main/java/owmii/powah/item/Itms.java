@@ -1,9 +1,11 @@
 package owmii.powah.item;
 
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import owmii.powah.Powah;
+import owmii.powah.block.Blcks;
 import owmii.powah.block.Tier;
 import owmii.powah.lib.item.ItemBase;
 import owmii.powah.lib.registry.VarReg;

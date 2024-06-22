@@ -31,8 +31,7 @@ public class EnergizingRecipe implements Recipe<RecipeInput> {
     public static final MapCodec<EnergizingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
             ItemStack.CODEC.fieldOf("result").forGetter(e -> e.output),
             Codec.LONG.fieldOf("energy").forGetter(e -> e.energy),
-            Ingredient.CODEC_NONEMPTY
-                    .listOf()
+            Ingredient.LIST_CODEC_NONEMPTY
                     .fieldOf("ingredients")
                     .forGetter(e -> e.ingredients))
             .apply(builder, EnergizingRecipe::new));

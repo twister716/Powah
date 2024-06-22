@@ -139,17 +139,6 @@ public class WrenchItem extends ItemBase implements IHudItem, IWrench {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if (entityIn instanceof Player) {
-            Player player = (Player) entityIn;
-            oneTimeInfo(player, stack,
-                    Component.translatable("info.powah.wrench.mode",
-                            Component.translatable("info.powah.wrench.mode." + getWrenchMode(stack).name().toLowerCase())
-                                    .withStyle(ChatFormatting.YELLOW)));
-        }
-    }
-
-    @Override
     public boolean renderHud(Level world, BlockPos pos, Player player, InteractionHand hand, Direction side, Vec3 hit) {
         return false;
     }

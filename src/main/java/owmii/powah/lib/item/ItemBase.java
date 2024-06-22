@@ -11,7 +11,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class ItemBase extends Item implements IItem {
+public class ItemBase extends Item {
     public ItemBase(Properties properties) {
         super(properties);
     }
