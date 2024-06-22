@@ -3,10 +3,10 @@
   "energy": 10000,
   "ingredients": [
     {
-      "tag": "forge:ices/blue"
+      "tag": "c:ices/blue"
     },
     {
-      "tag": "forge:ices/blue"
+      "tag": "c:ices/blue"
     }
   ],
   "result": {

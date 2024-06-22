@@ -3,7 +3,7 @@
   "energy": 50000,
   "ingredients": [
     {
-      "tag": "forge:ores/uraninite"
+      "tag": "c:ores/uraninite"
     }
   ],
   "result": {

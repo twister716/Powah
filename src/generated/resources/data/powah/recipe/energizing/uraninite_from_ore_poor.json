@@ -3,7 +3,7 @@
   "energy": 25000,
   "ingredients": [
     {
-      "tag": "forge:ores/uraninite_poor"
+      "tag": "c:ores/uraninite_poor"
     }
   ],
   "result": {

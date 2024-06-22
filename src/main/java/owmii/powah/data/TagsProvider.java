@@ -9,6 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -83,6 +84,9 @@ public class TagsProvider {
             tag(ITags.Items.URANINITE_ORE_DENSE).add(Blcks.URANINITE_ORE_DENSE.get().asItem(), Blcks.DEEPSLATE_URANINITE_ORE_DENSE.get().asItem());
             tag(Tags.Items.ORES).addTag(ITags.Items.URANINITE_ORE_DENSE);
 
+            tag(Tags.Items.ORES_IN_GROUND_DEEPSLATE).add(Blcks.DEEPSLATE_URANINITE_ORE.get().asItem(), Blcks.DEEPSLATE_URANINITE_ORE_DENSE.get().asItem(), Blcks.DEEPSLATE_URANINITE_ORE_POOR.get().asItem());
+            tag(Tags.Items.ORES_IN_GROUND_STONE).add(Blcks.URANINITE.get().asItem(), Blcks.URANINITE_ORE_DENSE.get().asItem(), Blcks.URANINITE_ORE_POOR.get().asItem());
+
             tag(Tags.Items.STORAGE_BLOCKS).add(Blcks.URANINITE.get().asItem());
             tag(ITags.Items.URANINITE_BLOCK).add(Blcks.URANINITE.get().asItem());
 
@@ -93,6 +97,8 @@ public class TagsProvider {
             tag(Tags.Items.GEMS).add(Itms.BLAZING_CRYSTAL.get(), Itms.NIOTIC_CRYSTAL.get(), Itms.SPIRITED_CRYSTAL.get(), Itms.NITRO_CRYSTAL.get());
 
             tag(ITags.Items.WRENCHES).add(Itms.WRENCH.get());
+
+            tag(ITags.Items.QUARTZ_BLOCKS).add(net.minecraft.world.item.Items.QUARTZ_BLOCK);
         }
     }
 }
