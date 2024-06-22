@@ -1,20 +1,25 @@
 package owmii.powah.block.energizing;
 
+import java.util.List;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.Nullable;
 import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.AbstractTickableTile;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.energy.Energy;
+import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.recipe.Recipes;
 
@@ -82,10 +87,22 @@ public class EnergizingOrbTile extends AbstractTickableTile<IVariant.Single, Ene
         }
     }
 
+    record OrbInput(Inventory inventory) implements RecipeInput {
+        @Override
+        public ItemStack getItem(int index) {
+            return inventory.getStackInSlot(index).copy();
+        }
+
+        @Override
+        public int size() {
+            return inventory.getSlots();
+        }
+    }
+
     private void checkRecipe() {
         if (this.level != null && !isRemote()) {
             Optional<RecipeHolder<EnergizingRecipe>> recipe = this.level.getRecipeManager().getRecipeFor(Recipes.ENERGIZING.get(),
-                    new RecipeWrapper(getInventory()), this.level);
+                    new OrbInput(getInventory()), this.level);
             if (recipe.isPresent()) {
                 this.recipe = recipe.get();
                 this.buffer.setCapacity(this.recipe.value().getScaledEnergy());

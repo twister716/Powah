@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class EnergizingRecipe implements Recipe<CraftingInput> {
+public class EnergizingRecipe implements Recipe<RecipeInput> {
     public static final ResourceLocation ID = Powah.id("energizing");
     private final ItemStack output;
     private final long energy;
@@ -54,7 +55,7 @@ public class EnergizingRecipe implements Recipe<CraftingInput> {
     }
 
     @Override
-    public boolean matches(CraftingInput inv, Level world) {
+    public boolean matches(RecipeInput inv, Level world) {
         List<Ingredient> stacks = new ArrayList<>(getIngredients());
         for (int i = 1; i < inv.size(); i++) {
             ItemStack stack = inv.getItem(i);
@@ -78,7 +79,7 @@ public class EnergizingRecipe implements Recipe<CraftingInput> {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider registry) {
+    public ItemStack assemble(RecipeInput inv, HolderLookup.Provider registry) {
         return this.output.copy();
     }
 

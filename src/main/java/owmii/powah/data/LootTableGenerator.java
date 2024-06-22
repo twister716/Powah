@@ -5,9 +5,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -18,19 +21,19 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import owmii.powah.block.Blcks;
 import owmii.powah.item.Itms;
 
-// TODO: find a clean way to share with fabric, for now we just copy/paste generated files over to fabric :/
 public class LootTableGenerator extends BlockLootSubProvider {
-    public LootTableGenerator() {
-        super(Set.of(), FeatureFlagSet.of());
+    public LootTableGenerator(HolderLookup.Provider providers) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), providers);
     }
 
     private Function<Block, LootTable.Builder> uraniniteOre(int dropCount) {
         return block -> {
+            var fortune = registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
             return createSilkTouchDispatchTable(block,
                     applyExplosionDecay(block,
                             LootItem.lootTableItem(Itms.URANINITE_RAW.get())
                                     .apply(SetItemCountFunction.setCount(ConstantValue.exactly(dropCount)))
-                                    .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
+                                    .apply(ApplyBonusCount.addOreBonusCount(fortune))));
         };
     }
 
@@ -39,7 +42,7 @@ public class LootTableGenerator extends BlockLootSubProvider {
     }
 
     @Override
-    public void generate(BiConsumer<ResourceLocation, LootTable.Builder> biConsumer) {
+    public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> biConsumer) {
         Map<Block, Function<Block, LootTable.Builder>> builders = new IdentityHashMap<>();
 
         builders.put(Blcks.DEEPSLATE_URANINITE_ORE_POOR.get(), uraniniteOre(1));

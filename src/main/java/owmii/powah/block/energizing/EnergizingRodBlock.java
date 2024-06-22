@@ -158,7 +158,7 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
     public boolean renderHud(GuiGraphics gui, BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result,
             @Nullable BlockEntity te) {
         if (te instanceof EnergizingRodTile rod) {
-            RenderSystem.getModelViewStack().pushPose();
+            RenderSystem.getModelViewStack().pushMatrix();
             RenderSystem.enableBlend();
             Minecraft mc = Minecraft.getInstance();
             Font font = mc.font;
@@ -171,7 +171,7 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
             Draw.gaugeH(x - 37, y - 79, 72, 16, 0, 9, ((EnergizingRodTile) te).getEnergy());
             gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 67, 0xffffff);
             RenderSystem.disableBlend();
-            RenderSystem.getModelViewStack().popPose();
+            RenderSystem.getModelViewStack().popMatrix();
         }
         return true;
     }

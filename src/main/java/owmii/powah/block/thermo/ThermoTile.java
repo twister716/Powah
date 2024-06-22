@@ -58,8 +58,8 @@ public class ThermoTile extends AbstractEnergyProvider<ThermoBlock> implements I
                 Block block = state.getBlock();
                 int heat = PowahAPI.getHeatSource(block);
                 if (!this.energy.isFull() && heat != 0) {
-                    if (block instanceof LiquidBlock fluidBlock) {
-                        if (!fluidBlock.getFluidState(state).isSource()) {
+                    if (block instanceof LiquidBlock) {
+                        if (!state.getFluidState().isSource()) {
                             int level = state.getValue(LiquidBlock.LEVEL);
                             heat = (int) (heat / ((float) level + 1));
                         }

@@ -109,7 +109,7 @@ public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodTil
     }
 
     private void pos(VertexConsumer builder, Matrix4f matrix4f, Matrix3f matrix3f, float x, float y, float z, int r, int g, int b, float u, float v) {
-        builder.addVertex(matrix4f, x, y, z).setColor(r, g, b, 255).setUv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).setLight(15728880 / 2)
+        builder.addVertex(matrix4f, x, y, z).setColor(r, g, b, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880 / 2)
                 .normal(matrix3f, 0.0F, 1.0F, 0.0F);
     }
 

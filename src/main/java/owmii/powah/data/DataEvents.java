@@ -2,6 +2,9 @@ package owmii.powah.data;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -30,7 +33,7 @@ public class DataEvents {
 
         pack.addProvider(
                 packOutput -> new CurioTagsProvider(packOutput, registries, blockTagsProvider.contentsGetter(), event.getExistingFileHelper()));
-        pack.addProvider(DataEvents::createLoot);
+        pack.addProvider(packOutput -> createLoot(packOutput, registries));
         pack.addProvider(packOutput -> new PowahDataMapProvider(packOutput, registries));
 
         var worldgenBuilder = new RegistrySetBuilder()
@@ -40,10 +43,11 @@ public class DataEvents {
         pack.addProvider(output -> new DatapackBuiltinEntriesProvider(output, registries, worldgenBuilder, Set.of(Powah.MOD_ID)));
     }
 
-    public static LootTableProvider createLoot(PackOutput output) {
+    public static LootTableProvider createLoot(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         return new LootTableProvider(
                 output,
                 Set.of(),
-                List.of(new LootTableProvider.SubProviderEntry(LootTableGenerator::new, LootContextParamSets.BLOCK)));
+                List.of(new LootTableProvider.SubProviderEntry(LootTableGenerator::new, LootContextParamSets.BLOCK)),
+                registries);
     }
 }
