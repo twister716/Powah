@@ -19,8 +19,8 @@ import owmii.powah.Powah;
 import owmii.powah.item.Itms;
 
 public class ReactorFuelCategory implements DisplayCategory<ReactorFuelDisplay> {
-    public static final ResourceLocation GUI_BACK = new ResourceLocation(Powah.MOD_ID, "textures/gui/jei/misc.png");
-    public static final CategoryIdentifier<ReactorFuelDisplay> ID = CategoryIdentifier.of(new ResourceLocation(Powah.MOD_ID, "reactor.fuels"));
+    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
+    public static final CategoryIdentifier<ReactorFuelDisplay> ID = CategoryIdentifier.of(Powah.id( "reactor.fuels"));
     private final Renderer icon;
 
     public ReactorFuelCategory() {

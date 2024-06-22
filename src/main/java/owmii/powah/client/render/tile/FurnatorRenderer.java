@@ -18,7 +18,7 @@ import owmii.powah.lib.client.renderer.tile.AbstractTileRenderer;
 import owmii.powah.lib.client.util.Cube;
 
 public class FurnatorRenderer extends AbstractTileRenderer<FurnatorTile> {
-    private static final ResourceLocation FURNATOR_LIT = new ResourceLocation(Powah.MOD_ID, "block/furnator_lit");
+    private static final ResourceLocation FURNATOR_LIT = Powah.id( "block/furnator_lit");
 
     protected FurnatorRenderer(BlockEntityRendererProvider.Context context) {
         super(context);

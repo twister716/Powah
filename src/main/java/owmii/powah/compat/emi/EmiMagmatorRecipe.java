@@ -14,7 +14,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.compat.common.MagmatorFuel;
 
 class EmiMagmatorRecipe extends BasicEmiRecipe {
-    public static final ResourceLocation GUI_BACK = new ResourceLocation(Powah.MOD_ID, "textures/gui/jei/misc.png");
+    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
 
     public static final PowahEmiCategory CATEGORY = new PowahEmiCategory(Powah.id("magmator"), EmiStack.of(Blcks.MAGMATOR.get(Tier.BASIC)),
             Component.translatable("gui.powah.jei.category.magmatic"));

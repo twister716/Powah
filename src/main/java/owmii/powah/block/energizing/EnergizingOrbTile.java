@@ -15,7 +15,6 @@ import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.AbstractTickableTile;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.energy.Energy;
-import owmii.powah.lib.logistics.inventory.RecipeWrapper;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.recipe.Recipes;
 

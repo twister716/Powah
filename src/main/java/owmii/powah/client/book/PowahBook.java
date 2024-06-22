@@ -64,7 +64,4 @@ public class PowahBook {
                         .e("dry_ice", Blcks.DRY_ICE.get(), e -> e.s(s -> s.p(new Info(IMG.DRY_ICE, s), new WelcomePanel(as)))),
                         new WelcomePanel(as))));
     }
-
-    public static void register() {
-    }
 }

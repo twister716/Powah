@@ -19,8 +19,8 @@ import owmii.powah.block.Blcks;
 import owmii.powah.util.Util;
 
 public class EnergizingCategory implements DisplayCategory<EnergizingDisplay> {
-    public static final ResourceLocation GUI_BACK = new ResourceLocation(Powah.MOD_ID, "textures/gui/jei/energizing.png");
-    public static final CategoryIdentifier<EnergizingDisplay> ID = CategoryIdentifier.of(new ResourceLocation(Powah.MOD_ID, "energizing"));
+    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/energizing.png");
+    public static final CategoryIdentifier<EnergizingDisplay> ID = CategoryIdentifier.of(Powah.id( "energizing"));
     private final Renderer icon;
 
     public EnergizingCategory() {

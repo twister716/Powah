@@ -19,8 +19,8 @@ import net.minecraft.world.level.block.Blocks;
 import owmii.powah.Powah;
 
 public class HeatSourceCategory implements DisplayCategory<HeatSourceDisplay> {
-    public static final ResourceLocation GUI_BACK = new ResourceLocation(Powah.MOD_ID, "textures/gui/jei/misc.png");
-    public static final CategoryIdentifier<HeatSourceDisplay> ID = CategoryIdentifier.of(new ResourceLocation(Powah.MOD_ID, "heat.sources"));
+    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
+    public static final CategoryIdentifier<HeatSourceDisplay> ID = CategoryIdentifier.of(Powah.id( "heat.sources"));
     private final Renderer icon;
 
     public HeatSourceCategory() {

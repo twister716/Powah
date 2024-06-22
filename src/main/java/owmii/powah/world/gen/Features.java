@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.OrePlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
@@ -49,7 +49,7 @@ public class Features {
     public static final ResourceKey<ConfiguredFeature<?, ?>> URANINITE_DENSE = ResourceKey.create(Registries.CONFIGURED_FEATURE,
             Powah.id("uraninite_ore_dense"));
 
-    public static void initConfiguredFeatures(BootstapContext<ConfiguredFeature<?, ?>> bootstrap) {
+    public static void initConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> bootstrap) {
 
         registerConfiguredFeature(bootstrap, DRY_ICE, Blcks.DRY_ICE, Blcks.DRY_ICE, 17);
         registerConfiguredFeature(bootstrap, URANINITE_POOR, Blcks.URANINITE_ORE_POOR,
@@ -60,7 +60,7 @@ public class Features {
 
     }
 
-    public static void initPlacedFeatures(BootstapContext<PlacedFeature> bootstrap) {
+    public static void initPlacedFeatures(BootstrapContext<PlacedFeature> bootstrap) {
 
         registerPlacedFeature(bootstrap, PLACED_DRY_ICE, DRY_ICE, dry_ice_veins_per_chunk, 64);
         registerPlacedFeature(bootstrap, PLACED_URANINITE_POOR, URANINITE_POOR,
@@ -72,7 +72,7 @@ public class Features {
 
     }
 
-    private static void registerConfiguredFeature(BootstapContext<ConfiguredFeature<?, ?>> bootstrap,
+    private static void registerConfiguredFeature(BootstrapContext<ConfiguredFeature<?, ?>> bootstrap,
             ResourceKey<ConfiguredFeature<?, ?>> key,
             Supplier<Block> block, Supplier<Block> deepslateBlock,
             int amountPerVein) {
@@ -83,7 +83,7 @@ public class Features {
         bootstrap.register(key, conf);
     }
 
-    private static void registerPlacedFeature(BootstapContext<PlacedFeature> bootstrap,
+    private static void registerPlacedFeature(BootstrapContext<PlacedFeature> bootstrap,
             ResourceKey<PlacedFeature> key,
             ResourceKey<ConfiguredFeature<?, ?>> configuredId,
             int veinsPerChunk, int maxY) {
@@ -97,7 +97,7 @@ public class Features {
         bootstrap.register(key, placed);
     }
 
-    public static void initBiomeModifiers(BootstapContext<BiomeModifier> bootstrap) {
+    public static void initBiomeModifiers(BootstrapContext<BiomeModifier> bootstrap) {
         var biomes = bootstrap.lookup(Registries.BIOME);
         var overworldBiomes = biomes.getOrThrow(BiomeTags.IS_OVERWORLD);
         addFeatureToBiomes(bootstrap, overworldBiomes, PLACED_URANINITE_POOR, GenerationStep.Decoration.UNDERGROUND_ORES);
@@ -108,7 +108,7 @@ public class Features {
         addFeatureToBiomes(bootstrap, dryIceBiomes, PLACED_DRY_ICE, GenerationStep.Decoration.UNDERGROUND_ORES);
     }
 
-    private static void addFeatureToBiomes(BootstapContext<BiomeModifier> bootstrap,
+    private static void addFeatureToBiomes(BootstrapContext<BiomeModifier> bootstrap,
             HolderSet<Biome> biomes,
             ResourceKey<PlacedFeature> featureKey,
             GenerationStep.Decoration step) {

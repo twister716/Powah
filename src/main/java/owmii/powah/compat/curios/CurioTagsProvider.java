@@ -44,7 +44,7 @@ public class CurioTagsProvider extends ItemTagsProvider {
          *      Types</a>
          */
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(new ResourceLocation(CuriosApi.MODID, name));
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, name));
         }
     }
 }

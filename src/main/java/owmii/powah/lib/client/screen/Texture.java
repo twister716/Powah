@@ -190,19 +190,19 @@ public class Texture {
         }
 
         public Texture make(String path, int width, int height) {
-            return new Texture(new ResourceLocation(this.id, "textures/gui/" + path + ".png"), width, height);
+            return new Texture(ResourceLocation.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height);
         }
 
         public Texture make(String path, int width, int height, int u, int v, int w, int h) {
-            return new Texture(new ResourceLocation(this.id, "textures/gui/" + path + ".png"), width, height, u, v, w, h);
+            return new Texture(ResourceLocation.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height, u, v, w, h);
         }
 
         public Texture make(String path, int width, int height, int u, int v, int d) {
-            return new Texture(new ResourceLocation(this.id, "textures/gui/" + path + ".png"), width, height, u, v, d);
+            return new Texture(ResourceLocation.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height, u, v, d);
         }
 
         public Texture make(String path, int width, int height, int u, int v) {
-            return new Texture(new ResourceLocation(this.id, "textures/gui/" + path + ".png"), width, height, u, v);
+            return new Texture(ResourceLocation.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height, u, v);
         }
     }
 }

@@ -19,8 +19,8 @@ import net.minecraft.world.item.Items;
 import owmii.powah.Powah;
 
 public class CoolantCategory implements DisplayCategory<CoolantDisplay> {
-    public static final ResourceLocation GUI_BACK = new ResourceLocation(Powah.MOD_ID, "textures/gui/jei/misc.png");
-    public static final CategoryIdentifier<CoolantDisplay> ID = CategoryIdentifier.of(new ResourceLocation(Powah.MOD_ID, ".coolant"));
+    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
+    public static final CategoryIdentifier<CoolantDisplay> ID = CategoryIdentifier.of(Powah.id( ".coolant"));
     private final Renderer icon;
 
     public CoolantCategory() {

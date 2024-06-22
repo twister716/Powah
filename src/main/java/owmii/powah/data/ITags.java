@@ -19,7 +19,7 @@ public class ITags {
         public static final TagKey<Block> URANINITE_BLOCK = tag("storage_blocks/uraninite");
 
         private static TagKey<Block> tag(String name) {
-            return BlockTags.create(new ResourceLocation("forge", name));
+            return BlockTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));
         }
     }
 
@@ -36,7 +36,7 @@ public class ITags {
         public static final TagKey<Item> WRENCHES = tag("tools/wrench");
 
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(new ResourceLocation("forge", name));
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));
         }
     }
 
@@ -47,7 +47,7 @@ public class ITags {
         public static final TagKey<Item> QUARTZ_BLOCKS = tag("quartz_blocks");
 
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(new ResourceLocation("c", name));
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
         }
     }
 }

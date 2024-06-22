@@ -35,7 +35,7 @@ public class ReactorRenderer extends AbstractTileRenderer<ReactorTile> {
         matrix.scale(1.0f, -1.0f, -1.0f);
         if (!te.isBuilt()) {
             VertexConsumer buffer = rtb.getBuffer(reactorPartModel
-                    .renderType(new ResourceLocation(Powah.MOD_ID, "textures/model/tile/reactor_block_" + te.getVariant().getName() + ".png")));
+                    .renderType(Powah.id( "textures/model/tile/reactor_block_" + te.getVariant().getName() + ".png")));
             reactorPartModel.renderToBuffer(matrix, buffer, light, ov, 1.0F, 1.0F, 1.0F, 1.0F);
         } else {
             matrix.translate(0.0D, -1.0D, 0.0D);

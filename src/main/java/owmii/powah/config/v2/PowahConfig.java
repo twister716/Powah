@@ -45,15 +45,15 @@ public class PowahConfig implements ConfigData {
         // Note: don't use Map.of directly, otherwise jankson fails to read it because it can't edit it...
         @Comment("List of fluids used in the Magmator.")
         public final Map<ResourceLocation, Integer> magmatic_fluids = new LinkedHashMap<>(Map.of(
-                new ResourceLocation("minecraft:lava"), 10000));
+                ResourceLocation.parse("minecraft:lava"), 10000));
         @Comment("List of coolant fluids used in the Reactor and the Thermo Generator.")
         public final Map<ResourceLocation, Integer> coolant_fluids = new LinkedHashMap<>(Map.of(
-                new ResourceLocation("minecraft:water"), 1));
+                ResourceLocation.parse("minecraft:water"), 1));
         @Comment("List of heat source blocks used under Thermo Generator.")
         public final Map<ResourceLocation, Integer> heat_blocks = new LinkedHashMap<>(Map.of(
-                new ResourceLocation("minecraft:lava"), 1000,
-                new ResourceLocation("minecraft:magma_block"), 800,
-                new ResourceLocation("powah:blazing_crystal_block"), 2800));
+                ResourceLocation.parse("minecraft:lava"), 1000,
+                ResourceLocation.parse("minecraft:magma_block"), 800,
+                ResourceLocation.parse("powah:blazing_crystal_block"), 2800));
         @Comment("Energy produced per fuel tick in the Furnator.")
         @LongRange(min = 1, max = Integer.MAX_VALUE)
         public long energy_per_fuel_tick = energyPerFuelTick();
@@ -176,7 +176,7 @@ public class PowahConfig implements ConfigData {
             // Resource Location
             janksonBuilder.registerDeserializer(String.class, ResourceLocation.class, (string, marshaller) -> {
                 try {
-                    return new ResourceLocation(string);
+                    return ResourceLocation.parse(string);
                 } catch (ResourceLocationException exception) {
                     throw new DeserializationException("Not a valid resource location: " + string, exception);
                 }

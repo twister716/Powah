@@ -166,7 +166,7 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
             int y = mc.getWindow().getGuiScaledHeight();
             String s = ChatFormatting.GRAY + I18n.get("info.lollipop.stored") + ": " + I18n.get("info.lollipop.fe.stored",
                     Util.addCommas(rod.getEnergy().getEnergyStored()), Util.numFormat(rod.getEnergy().getCapacity()));
-            RenderSystem.setShaderTexture(0, new ResourceLocation("lollipop", "textures/gui/ov_energy.png"));
+            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath("lollipop", "textures/gui/ov_energy.png"));
             Draw.drawTexturedModalRect(gui, x - 37 - 1, y - 80, 0, 0, 74, 9, 0);
             Draw.gaugeH(x - 37, y - 79, 72, 16, 0, 9, ((EnergizingRodTile) te).getEnergy());
             gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 67, 0xffffff);

@@ -16,7 +16,7 @@ import owmii.powah.Powah;
 import owmii.powah.compat.common.FluidCoolant;
 
 class EmiFluidCoolantRecipe implements EmiRecipe {
-    public static final ResourceLocation GUI_BACK = new ResourceLocation(Powah.MOD_ID, "textures/gui/jei/misc.png");
+    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
 
     public static final PowahEmiCategory CATEGORY = new PowahEmiCategory(Powah.id("coolant"), EmiStack.of(Items.WATER_BUCKET),
             Component.translatable("gui.powah.jei.category.coolant"));

@@ -20,6 +20,7 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
@@ -53,7 +54,7 @@ public class Powah {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public static ResourceLocation id(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     public static PowahConfig config() {
@@ -87,7 +88,7 @@ public class Powah {
 
         modEventBus.addListener(DataEvents::gatherData);
         NeoForge.EVENT_BUS.addListener((PlayerInteractEvent.RightClickBlock event) -> {
-            if (event.getUseBlock() == Event.Result.DENY) {
+            if (event.getUseBlock() == TriState.FALSE) {
                 return;
             }
             if (Wrench.removeWithWrench(event.getEntity(), event.getLevel(), event.getHand(), event.getHitVec())) {
@@ -95,14 +96,6 @@ public class Powah {
                 event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
             }
         });
-
-        if (FMLEnvironment.dist.isClient()) {
-            try {
-                Class.forName("owmii.powah.client.PowahClient").getMethod("init").invoke(null);
-            } catch (Exception exception) {
-                throw new RuntimeException("Failed to run powah forge client init", exception);
-            }
-        }
 
         if (ModList.get().isLoaded("curios")) {
             CuriosCompat.init();

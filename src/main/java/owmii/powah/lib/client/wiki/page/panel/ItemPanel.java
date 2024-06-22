@@ -50,7 +50,7 @@ public class ItemPanel<T extends ItemLike> extends Panel {
         } else {
             var id = BuiltInRegistries.ITEM.getKey(item.asItem());
             if (item instanceof IVariantEntry variantEntry) {
-                id = new ResourceLocation(id.getNamespace(), id.getPath().replace("_" + variantEntry.getVariant().getName(), ""));
+                id = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath().replace("_" + variantEntry.getVariant().getName(), ""));
             }
             return VarReg.getSiblingIds(Objects.requireNonNull(id).getPath()).stream().map(rl -> BuiltInRegistries.ITEM.get(Powah.id(rl)))
                     .toArray(ItemLike[]::new);

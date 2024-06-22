@@ -1,41 +1,31 @@
 package owmii.powah.network.packet;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import owmii.powah.Powah;
 import owmii.powah.lib.block.AbstractTileEntity;
 import owmii.powah.network.ServerboundPacket;
 
-public class NextRedstoneModePacket implements ServerboundPacket {
-    public static final ResourceLocation ID = Powah.id("next_redstone_mode");
+public record NextRedstoneModePacket(BlockPos pos) implements ServerboundPacket {
+    public static final Type<NextRedstoneModePacket> TYPE = new Type<>(Powah.id("next_redstone_mode"));
 
-    private final BlockPos pos;
-
-    public NextRedstoneModePacket(BlockPos pos) {
-        this.pos = pos;
-    }
-
-    public NextRedstoneModePacket(FriendlyByteBuf buffer) {
-        this(buffer.readBlockPos());
-    }
+    public static final StreamCodec<RegistryFriendlyByteBuf, NextRedstoneModePacket> STREAM_CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC, NextRedstoneModePacket::pos,
+            NextRedstoneModePacket::new
+    );
 
     @Override
-    public ResourceLocation id() {
-        return ID;
-    }
-
-    @Override
-    public void write(FriendlyByteBuf buffer) {
-        buffer.writeBlockPos(pos);
+    public Type<NextRedstoneModePacket> type() {
+        return TYPE;
     }
 
     @Override
     public void handleOnServer(ServerPlayer player) {
         BlockEntity tileEntity = player.serverLevel().getBlockEntity(pos);
-        if (tileEntity instanceof AbstractTileEntity<?, ?>ate) {
+        if (tileEntity instanceof AbstractTileEntity<?, ?> ate) {
             ate.nextRedstoneMode();
             ate.sync();
         }

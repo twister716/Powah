@@ -31,7 +31,7 @@ public class OrbModel extends AbstractModel<EnergizingOrbTile, EnergizingOrbRend
         return LayerDefinition.create(meshDefinition, 20, 10);
     }
 
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Powah.MOD_ID, "textures/model/tile/energy_charge.png");
+    public static final ResourceLocation TEXTURE = Powah.id( "textures/model/tile/energy_charge.png");
 
     @Override
     public void render(EnergizingOrbTile te, EnergizingOrbRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {

@@ -17,7 +17,7 @@ import owmii.powah.item.Itms;
 import owmii.powah.recipe.ReactorFuel;
 
 class EmiReactorFuelRecipe implements EmiRecipe {
-    public static final ResourceLocation GUI_BACK = new ResourceLocation(Powah.MOD_ID, "textures/gui/jei/misc.png");
+    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
 
     public static final PowahEmiCategory CATEGORY = new PowahEmiCategory(Powah.id("reactor_fuels"), EmiStack.of(Itms.URANINITE.get()),
             Component.translatable("gui.powah.jei.category.reactor.fuels"));

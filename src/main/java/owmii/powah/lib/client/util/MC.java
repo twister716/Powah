@@ -6,7 +6,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 
 public class MC {
     public static long ticks;
@@ -28,9 +28,7 @@ public class MC {
     }
 
     @SubscribeEvent
-    public static void onTick(TickEvent.ClientTickEvent e) {
-        if (e.phase == TickEvent.Phase.END) {
-            ticks++;
-        }
+    public static void onTick(ClientTickEvent.Post e) {
+        ticks++;
     }
 }

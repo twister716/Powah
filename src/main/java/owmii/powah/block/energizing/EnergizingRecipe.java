@@ -1,45 +1,62 @@
 package owmii.powah.block.energizing;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.IntStream;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import owmii.powah.Powah;
-import owmii.powah.lib.logistics.inventory.RecipeWrapper;
 import owmii.powah.recipe.Recipes;
 
-public class EnergizingRecipe implements Recipe<RecipeWrapper> {
-    public static final ResourceLocation ID = new ResourceLocation(Powah.MOD_ID, "energizing");
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class EnergizingRecipe implements Recipe<CraftingInput> {
+    public static final ResourceLocation ID = Powah.id("energizing");
     private final ItemStack output;
     private final long energy;
     private final NonNullList<Ingredient> ingredients;
 
-    public EnergizingRecipe(ItemStack output, long energy, Ingredient... ingredients) {
-        this(output, energy, NonNullList.of(Ingredient.EMPTY, ingredients));
-    }
+    public static final MapCodec<EnergizingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+                    ItemStack.CODEC.fieldOf("result").forGetter(e -> e.output),
+                    Codec.LONG.fieldOf("energy").forGetter(e -> e.energy),
+                    Ingredient.CODEC_NONEMPTY
+                            .listOf()
+                            .fieldOf("ingredients")
+                            .forGetter(e -> e.ingredients)
+            )
+            .apply(builder, EnergizingRecipe::new));
 
-    public EnergizingRecipe(ItemStack output, long energy, NonNullList<Ingredient> ingredients) {
+    public static final StreamCodec<RegistryFriendlyByteBuf, EnergizingRecipe> STREAM_CODEC = StreamCodec.composite(
+            ItemStack.STREAM_CODEC,
+            EnergizingRecipe::getResultItem,
+            ByteBufCodecs.VAR_LONG, EnergizingRecipe::getEnergy,
+            Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()),
+            EnergizingRecipe::getIngredients,
+            EnergizingRecipe::new);
+
+    public EnergizingRecipe(ItemStack output, long energy, List<Ingredient> ingredients) {
         this.output = output;
         this.energy = energy;
-        this.ingredients = ingredients;
+        this.ingredients = NonNullList.copyOf(ingredients);
     }
 
     @Override
-    public boolean matches(RecipeWrapper inv, Level world) {
+    public boolean matches(CraftingInput inv, Level world) {
         List<Ingredient> stacks = new ArrayList<>(getIngredients());
-        for (int i = 1; i < inv.getContainerSize(); i++) {
+        for (int i = 1; i < inv.size(); i++) {
             ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty()) {
                 boolean flag = false;
@@ -61,7 +78,7 @@ public class EnergizingRecipe implements Recipe<RecipeWrapper> {
     }
 
     @Override
-    public ItemStack assemble(RecipeWrapper inv, RegistryAccess registry) {
+    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider registry) {
         return this.output.copy();
     }
 
@@ -75,7 +92,7 @@ public class EnergizingRecipe implements Recipe<RecipeWrapper> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         return this.output;
     }
 
@@ -108,40 +125,14 @@ public class EnergizingRecipe implements Recipe<RecipeWrapper> {
     }
 
     public static class Serializer implements RecipeSerializer<EnergizingRecipe> {
-
-        public static final Codec<EnergizingRecipe> CODEC = RecordCodecBuilder.create(builder -> {
-            return builder.group(
-                    Codec.LONG.fieldOf("energy").forGetter(EnergizingRecipe::getEnergy),
-                    Ingredient.CODEC_NONEMPTY
-                            .listOf()
-                            .fieldOf("ingredients")
-                            .forGetter(EnergizingRecipe::getIngredients),
-                    ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("result").forGetter(EnergizingRecipe::getResultItem))
-                    .apply(builder, (energy, ingredients, result) -> {
-                        var nnIngredients = NonNullList.<Ingredient>create();
-                        nnIngredients.addAll(ingredients);
-                        return new EnergizingRecipe(result, energy, nnIngredients);
-                    });
-        });
-
         @Override
-        public Codec<EnergizingRecipe> codec() {
+        public MapCodec<EnergizingRecipe> codec() {
             return CODEC;
         }
 
         @Override
-        public EnergizingRecipe fromNetwork(FriendlyByteBuf buffer) {
-            NonNullList<Ingredient> list = NonNullList.withSize(buffer.readInt(), Ingredient.EMPTY);
-            IntStream.range(0, list.size()).forEach(i -> list.set(i, Ingredient.fromNetwork(buffer)));
-            return new EnergizingRecipe(buffer.readItem(), buffer.readLong(), list);
-        }
-
-        @Override
-        public void toNetwork(FriendlyByteBuf buffer, EnergizingRecipe recipe) {
-            buffer.writeInt(recipe.ingredients.size());
-            recipe.ingredients.forEach(ingredient -> ingredient.toNetwork(buffer));
-            buffer.writeItem(recipe.output);
-            buffer.writeLong(recipe.energy);
+        public StreamCodec<RegistryFriendlyByteBuf, EnergizingRecipe> streamCodec() {
+            return STREAM_CODEC;
         }
     }
 }

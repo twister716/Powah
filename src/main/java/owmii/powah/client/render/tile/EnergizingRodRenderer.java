@@ -27,7 +27,7 @@ import owmii.powah.lib.client.util.RenderTypes;
 import owmii.powah.util.math.V3d;
 
 public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodTile> {
-    public static final ResourceLocation BEAM_TEXTURE = new ResourceLocation(Powah.MOD_ID, "textures/model/tile/beam.png");
+    public static final ResourceLocation BEAM_TEXTURE = Powah.id( "textures/model/tile/beam.png");
     private static final RenderType RENDER_TYPE = RenderTypes.entityBlendedNoDept(BEAM_TEXTURE);
 
     protected EnergizingRodRenderer(BlockEntityRendererProvider.Context context) {
@@ -109,8 +109,8 @@ public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodTil
     }
 
     private void pos(VertexConsumer builder, Matrix4f matrix4f, Matrix3f matrix3f, float x, float y, float z, int r, int g, int b, float u, float v) {
-        builder.vertex(matrix4f, x, y, z).color(r, g, b, 255).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880 / 2)
-                .normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+        builder.addVertex(matrix4f, x, y, z).setColor(r, g, b, 255).setUv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).setLight(15728880 / 2)
+                .normal(matrix3f, 0.0F, 1.0F, 0.0F);
     }
 
     @Override

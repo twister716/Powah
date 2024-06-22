@@ -1,34 +1,24 @@
 package owmii.powah.network.packet;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import owmii.powah.Powah;
 import owmii.powah.block.reactor.ReactorTile;
 import owmii.powah.network.ServerboundPacket;
 
-public class SwitchGenModePacket implements ServerboundPacket {
-    public static ResourceLocation ID = Powah.id("switch_gen_mode");
+public record SwitchGenModePacket(BlockPos pos) implements ServerboundPacket {
+    public static final Type<SwitchGenModePacket> TYPE = new Type<>(Powah.id("switch_gen_mode"));
 
-    private final BlockPos pos;
-
-    public SwitchGenModePacket(BlockPos pos) {
-        this.pos = pos;
-    }
-
-    public SwitchGenModePacket(FriendlyByteBuf buffer) {
-        this(buffer.readBlockPos());
-    }
+    public static final StreamCodec<RegistryFriendlyByteBuf, SwitchGenModePacket> STREAM_CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC, SwitchGenModePacket::pos,
+            SwitchGenModePacket::new
+    );
 
     @Override
-    public ResourceLocation id() {
-        return ID;
-    }
-
-    @Override
-    public void write(FriendlyByteBuf buffer) {
-        buffer.writeBlockPos(pos);
+    public Type<SwitchGenModePacket> type() {
+        return TYPE;
     }
 
     @Override

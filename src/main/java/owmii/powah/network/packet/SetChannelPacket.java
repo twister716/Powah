@@ -2,36 +2,27 @@ package owmii.powah.network.packet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import owmii.powah.Powah;
 import owmii.powah.block.ender.AbstractEnderTile;
 import owmii.powah.network.ServerboundPacket;
 
-public class SetChannelPacket implements ServerboundPacket {
-    public static final ResourceLocation ID = Powah.id("set_channel");
+public record SetChannelPacket(BlockPos pos, int channel) implements ServerboundPacket {
+    public static final Type<SetChannelPacket> TYPE = new Type<>(Powah.id("set_channel"));
 
-    private final BlockPos pos;
-    private final int channel;
-
-    public SetChannelPacket(BlockPos pos, int channel) {
-        this.pos = pos;
-        this.channel = channel;
-    }
-
-    public SetChannelPacket(FriendlyByteBuf buffer) {
-        this(buffer.readBlockPos(), buffer.readInt());
-    }
+    public static final StreamCodec<RegistryFriendlyByteBuf, SetChannelPacket> STREAM_CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC, SetChannelPacket::pos,
+            ByteBufCodecs.INT, SetChannelPacket::channel,
+            SetChannelPacket::new
+    );
 
     @Override
-    public ResourceLocation id() {
-        return ID;
-    }
-
-    @Override
-    public void write(FriendlyByteBuf buffer) {
-        buffer.writeBlockPos(pos);
-        buffer.writeInt(channel);
+    public Type<SetChannelPacket> type() {
+        return TYPE;
     }
 
     @Override

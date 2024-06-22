@@ -2,37 +2,29 @@ package owmii.powah.network.packet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import owmii.powah.Powah;
 import owmii.powah.lib.block.AbstractEnergyStorage;
 import owmii.powah.network.ServerboundPacket;
 
-public class NextEnergyConfigPacket implements ServerboundPacket {
-    public static final ResourceLocation ID = Powah.id("next_energy_config");
+public record NextEnergyConfigPacket(
+        int mode,
+        BlockPos pos
+) implements ServerboundPacket {
+    public static final Type<NextEnergyConfigPacket> TYPE = new Type<>(Powah.id("next_energy_config"));
 
-    private final int mode;
-    private final BlockPos pos;
-
-    public NextEnergyConfigPacket(int mode, BlockPos pos) {
-        this.mode = mode;
-        this.pos = pos;
-    }
-
-    public NextEnergyConfigPacket(FriendlyByteBuf buffer) {
-        this(buffer.readInt(), buffer.readBlockPos());
-    }
+    public static final StreamCodec<RegistryFriendlyByteBuf, NextEnergyConfigPacket> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT, NextEnergyConfigPacket::mode,
+            BlockPos.STREAM_CODEC, NextEnergyConfigPacket::pos,
+            NextEnergyConfigPacket::new
+    );
 
     @Override
-    public ResourceLocation id() {
-        return ID;
-    }
-
-    @Override
-    public void write(FriendlyByteBuf buffer) {
-        buffer.writeInt(mode);
-        buffer.writeBlockPos(pos);
+    public Type<NextEnergyConfigPacket> type() {
+        return TYPE;
     }
 
     @Override

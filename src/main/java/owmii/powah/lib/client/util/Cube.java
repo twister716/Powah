@@ -97,69 +97,69 @@ public class Cube {
         boolean isAll = this.sides.isEmpty();
 
         if (isAll || this.sides.contains(Side.UP)) {
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV0()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV0()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV1()).uv2(this.light).endVertex();
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV0()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV0()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV1()).setLight(this.light);
         }
 
         if (isAll || this.sides.contains(Side.DOWN)) {
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV0()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV0()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV1()).uv2(this.light).endVertex();
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV0()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV0()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV1()).setLight(this.light);
         }
 
         if (isAll || this.sides.contains(Side.NORTH)) {
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV0()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV0()).uv2(this.light).endVertex();
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV0()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV0()).setLight(this.light);
         }
 
         if (isAll || this.sides.contains(Side.SOUTH)) {
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV0()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV0()).uv2(this.light).endVertex();
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV0()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV0()).setLight(this.light);
         }
 
         if (isAll || this.sides.contains(Side.WEST)) {
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV0()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV0()).uv2(this.light).endVertex();
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV0()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() + d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() - d, (float) this.pos.y() - d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV0()).setLight(this.light);
         }
 
         if (isAll || this.sides.contains(Side.EAST)) {
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV0()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() - d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU1(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV1()).uv2(this.light).endVertex();
-            this.builder.vertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() + d)
-                    .color(this.r, this.g, this.b, this.a).uv(sprite.getU0(), sprite.getV0()).uv2(this.light).endVertex();
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV0()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() - d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU1(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() + d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV1()).setLight(this.light);
+            this.builder.addVertex(matrix4f, (float) this.pos.x() + d, (float) this.pos.y() - d, (float) this.pos.z() + d)
+                    .setColor(this.r, this.g, this.b, this.a).setUv(sprite.getU0(), sprite.getV0()).setLight(this.light);
         }
     }
 

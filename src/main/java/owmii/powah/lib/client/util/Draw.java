@@ -1,6 +1,6 @@
 package owmii.powah.lib.client.util;
 
-import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -11,6 +11,7 @@ import owmii.powah.lib.logistics.energy.Energy;
 public class Draw {
     public static void gaugeV(TextureAtlasSprite sprite, int x, int y, int w, int h, int cap, int cur) {
         if (cap > 0 && cur > 0) {
+            var buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
             int i = (int) (((float) cur / cap) * h);
             final int j = i / 16;
             final int k = i - j * 16;
@@ -26,16 +27,13 @@ public class Draw {
                     float vMax = sprite.getV1();
                     uMax = uMax - n / 16.0F * (uMax - uMin);
                     vMin = vMin - m / 16.0F * (vMin - vMax);
-                    Tesselator tessellator = Tesselator.getInstance();
-                    BufferBuilder buffer = tessellator.getBuilder();
-                    buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-                    buffer.vertex(x, yy + 16, 0).uv(uMin, vMax).endVertex();
-                    buffer.vertex(x + w, yy + 16, 0).uv(uMax, vMax).endVertex();
-                    buffer.vertex(x + w, yy + m, 0).uv(uMax, vMin).endVertex();
-                    buffer.vertex(x, yy + m, 0).uv(uMin, vMin).endVertex();
-                    tessellator.end();
+                    buffer.addVertex(x, yy + 16, 0).setUv(uMin, vMax);
+                    buffer.addVertex(x + w, yy + 16, 0).setUv(uMax, vMax);
+                    buffer.addVertex(x + w, yy + m, 0).setUv(uMax, vMin);
+                    buffer.addVertex(x, yy + m, 0).setUv(uMin, vMin);
                 }
             }
+            BufferUploader.drawWithShader(buffer.buildOrThrow());
         }
     }
 
@@ -46,14 +44,12 @@ public class Draw {
     public static void gaugeH(int x, int y, int w, int h, int uvX, int uvY, long cap, long cur) {
         if (cap > 0 && cur > 0) {
             w = (int) (((float) cur / cap) * w);
-            Tesselator tessellator = Tesselator.getInstance();
-            BufferBuilder buffer = tessellator.getBuilder();
-            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-            buffer.vertex(x, y + h, 0).uv(uvX, uvY + h).endVertex();
-            buffer.vertex(x + w, y + h, 0).uv(uvX + w, uvY + h).endVertex();
-            buffer.vertex(x + w, y, 0).uv(uvX + w, uvY).endVertex();
-            buffer.vertex(x, y, 0).uv(uvX, uvY).endVertex();
-            tessellator.end();
+            var buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+            buffer.addVertex(x, y + h, 0).setUv(uvX, uvY + h);
+            buffer.addVertex(x + w, y + h, 0).setUv(uvX + w, uvY + h);
+            buffer.addVertex(x + w, y, 0).setUv(uvX + w, uvY);
+            buffer.addVertex(x, y, 0).setUv(uvX, uvY);
+            BufferUploader.drawWithShader(buffer.buildOrThrow());
         }
     }
 
@@ -61,14 +57,12 @@ public class Draw {
         final float uScale = 1f / 0x100;
         final float vScale = 1f / 0x100;
 
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder wr = tessellator.getBuilder();
-        wr.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        var wr = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         var matrix = gui.pose().last().pose();
-        wr.vertex(matrix, x, y + height, zLevel).uv(u * uScale, ((v + height) * vScale)).endVertex();
-        wr.vertex(matrix, x + width, y + height, zLevel).uv((u + width) * uScale, ((v + height) * vScale)).endVertex();
-        wr.vertex(matrix, x + width, y, zLevel).uv((u + width) * uScale, (v * vScale)).endVertex();
-        wr.vertex(matrix, x, y, zLevel).uv(u * uScale, (v * vScale)).endVertex();
-        tessellator.end();
+        wr.addVertex(matrix, x, y + height, zLevel).setUv(u * uScale, ((v + height) * vScale));
+        wr.addVertex(matrix, x + width, y + height, zLevel).setUv((u + width) * uScale, ((v + height) * vScale));
+        wr.addVertex(matrix, x + width, y, zLevel).setUv((u + width) * uScale, (v * vScale));
+        wr.addVertex(matrix, x, y, zLevel).setUv(u * uScale, (v * vScale));
+        BufferUploader.drawWithShader(wr.buildOrThrow());
     }
 }

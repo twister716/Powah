@@ -14,7 +14,7 @@ import owmii.powah.Powah;
 import owmii.powah.compat.common.PassiveHeatSource;
 
 class EmiHeatSourceRecipe implements EmiRecipe {
-    public static final ResourceLocation GUI_BACK = new ResourceLocation(Powah.MOD_ID, "textures/gui/jei/misc.png");
+    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
 
     public static final PowahEmiCategory CATEGORY = new PowahEmiCategory(Powah.id("passive_heat_sources"), EmiStack.of(Blocks.MAGMA_BLOCK),
             Component.translatable("gui.powah.jei.category.heat.sources"));

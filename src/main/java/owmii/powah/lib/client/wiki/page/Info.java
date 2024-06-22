@@ -101,7 +101,7 @@ public class Info extends Page {
             for (int j = 0; j < words.length; j++) {
                 String w = words[j];
                 if (w.startsWith("<") && w.contains(":") && w.endsWith(">")) {
-                    Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(w.substring(1, w.length() - 1)));
+                    Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(w.substring(1, w.length() - 1)));
                     ft = ft.append(new ItemStack(item).getHoverName().plainCopy().withStyle(ChatFormatting.BLUE)).append(" ");
                 } else {
                     ft = ft.append(w).append(" ");

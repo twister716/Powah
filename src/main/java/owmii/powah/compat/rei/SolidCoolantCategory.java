@@ -19,8 +19,8 @@ import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
 
 public class SolidCoolantCategory implements DisplayCategory<SolidCoolantDisplay> {
-    public static final ResourceLocation GUI_BACK = new ResourceLocation(Powah.MOD_ID, "textures/gui/jei/misc.png");
-    public static final CategoryIdentifier<SolidCoolantDisplay> ID = CategoryIdentifier.of(new ResourceLocation(Powah.MOD_ID, "solid.coolants"));
+    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
+    public static final CategoryIdentifier<SolidCoolantDisplay> ID = CategoryIdentifier.of(Powah.id( "solid.coolants"));
     private final Renderer icon;
 
     public SolidCoolantCategory() {
