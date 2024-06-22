@@ -73,7 +73,8 @@ public class ReactorBlock extends AbstractGeneratorBlock<ReactorBlock> {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+            BlockHitResult pHitResult) {
         BlockEntity tileentity = pLevel.getBlockEntity(pPos);
         if (tileentity instanceof ReactorTile reactor) {
             if (reactor.isBuilt()) {

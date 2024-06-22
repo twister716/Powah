@@ -37,8 +37,7 @@ public class RenderTypes extends RenderType {
         CompositeState state = CompositeState.builder().setTextureState(new TextureStateShard(location, false, false))
                 .setTransparencyState(BLENDED_NO_DEPT)
                 .setShaderState(new RenderStateShard.ShaderStateShard(
-                        GameRenderer::getPositionTexColorShader
-                ))
+                        GameRenderer::getPositionTexColorShader))
                 .setCullState(NO_CULL)
                 .setLightmapState(NO_LIGHTMAP).createCompositeState(true);
         return create("blend_bo_dept", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 256, true, true, state);

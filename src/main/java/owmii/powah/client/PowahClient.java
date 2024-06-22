@@ -7,7 +7,6 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import owmii.powah.Powah;
-import owmii.powah.client.book.PowahBook;
 import owmii.powah.client.handler.HudHandler;
 import owmii.powah.client.handler.ReactorOverlayHandler;
 import owmii.powah.client.model.PowahLayerDefinitions;

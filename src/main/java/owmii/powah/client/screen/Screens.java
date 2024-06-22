@@ -1,6 +1,5 @@
 package owmii.powah.client.screen;
 
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import owmii.powah.client.book.PowahBook;
 import owmii.powah.client.screen.container.*;

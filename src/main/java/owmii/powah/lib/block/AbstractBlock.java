@@ -186,7 +186,7 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
     }
 
     protected void additionalGuiData(FriendlyByteBuf buffer, BlockState state, Level world, BlockPos pos, Player player,
-                                     BlockHitResult result) {
+            BlockHitResult result) {
     }
 
     @Override

@@ -12,12 +12,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.wrench.IWrenchable;
 import owmii.powah.api.wrench.WrenchMode;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.item.WrenchItem;
 import owmii.powah.lib.block.AbstractBlock;
 import owmii.powah.lib.client.handler.IHud;
@@ -44,7 +41,6 @@ import owmii.powah.util.Util;
 import owmii.powah.util.math.V3d;
 
 public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, EnergizingOrbBlock> implements SimpleWaterloggedBlock, IWrenchable, IHud {
-
     public EnergizingOrbBlock(Properties properties) {
         super(properties);
         setStateProps(state -> state.setValue(BlockStateProperties.FACING, Direction.DOWN));
@@ -64,7 +60,8 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
+            BlockHitResult hitResult) {
         BlockEntity tileentity = level.getBlockEntity(pos);
         if (tileentity instanceof EnergizingOrbTile) {
             EnergizingOrbTile orb = (EnergizingOrbTile) tileentity;
@@ -157,14 +154,12 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
             Vec3 hit) {
         if (mode.link()) {
             ItemStack stack = player.getItemInHand(hand);
-            if (stack.getItem() instanceof WrenchItem wrench) {
+            if (stack.getItem() instanceof WrenchItem) {
                 BlockEntity tileEntity = world.getBlockEntity(pos);
                 if (tileEntity instanceof EnergizingOrbTile) {
-                    CompoundTag nbt = wrench.getWrenchNBT(stack);
-                    if (nbt.contains("RodPos", Tag.TAG_COMPOUND)) {
-                        BlockPos rodPos = NbtUtils.readBlockPos(nbt.getCompound("RodPos"));
-                        BlockEntity tileEntity1 = world.getBlockEntity(rodPos);
-                        if (tileEntity1 instanceof EnergizingRodTile rod) {
+                    BlockPos rodPos = stack.get(PowahComponents.LINK_ROD_POS);
+                    if (rodPos != null) {
+                        if (world.getBlockEntity(rodPos) instanceof EnergizingRodTile rod) {
                             V3d v3d = V3d.from(rodPos);
                             if ((int) v3d.distance(pos) <= Powah.config().general.energizing_range) {
                                 rod.setOrbPos(pos);
@@ -175,9 +170,9 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
                                         true);
                             }
                         }
-                        nbt.remove("RodPos");
+                        stack.remove(PowahComponents.LINK_ROD_POS);
                     } else {
-                        nbt.put("OrbPos", NbtUtils.writeBlockPos(pos));
+                        stack.set(PowahComponents.LINK_ORB_POS, pos);
                         player.displayClientMessage(Component.translatable("chat.powah.wrench.link.start").withStyle(ChatFormatting.YELLOW), true);
                     }
                     return true;

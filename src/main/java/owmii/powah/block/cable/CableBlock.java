@@ -4,7 +4,6 @@ import java.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -157,7 +156,7 @@ public class CableBlock extends AbstractEnergyBlock<CableConfig, CableBlock> imp
 
     @Override
     protected void additionalGuiData(FriendlyByteBuf buffer, BlockState state, Level world, BlockPos pos, Player player,
-                                     BlockHitResult result) {
+            BlockHitResult result) {
         getHitSide(result.getLocation(), pos).ifPresent(side -> buffer.writeInt(side.get3DDataValue()));
         super.additionalGuiData(buffer, state, world, pos, player, result);
     }

@@ -16,8 +16,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 import owmii.powah.Powah;
 import owmii.powah.api.wrench.IWrench;
 import owmii.powah.block.energizing.EnergizingOrbTile;
@@ -27,7 +25,7 @@ import owmii.powah.lib.client.util.RenderTypes;
 import owmii.powah.util.math.V3d;
 
 public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodTile> {
-    public static final ResourceLocation BEAM_TEXTURE = Powah.id( "textures/model/tile/beam.png");
+    public static final ResourceLocation BEAM_TEXTURE = Powah.id("textures/model/tile/beam.png");
     private static final RenderType RENDER_TYPE = RenderTypes.entityBlendedNoDept(BEAM_TEXTURE);
 
     protected EnergizingRodRenderer(BlockEntityRendererProvider.Context context) {

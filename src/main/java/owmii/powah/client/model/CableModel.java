@@ -91,9 +91,9 @@ public class CableModel extends AbstractModel<CableTile, CableRenderer> {
     private static final Map<Transfer, ResourceLocation> TEXTURES = new HashMap<>();
 
     static {
-        TEXTURES.put(Transfer.ALL, Powah.id( "textures/model/tile/energy_cable_all.png"));
-        TEXTURES.put(Transfer.RECEIVE, Powah.id( "textures/model/tile/energy_cable_out.png"));
-        TEXTURES.put(Transfer.EXTRACT, Powah.id( "textures/model/tile/energy_cable_in.png"));
+        TEXTURES.put(Transfer.ALL, Powah.id("textures/model/tile/energy_cable_all.png"));
+        TEXTURES.put(Transfer.RECEIVE, Powah.id("textures/model/tile/energy_cable_out.png"));
+        TEXTURES.put(Transfer.EXTRACT, Powah.id("textures/model/tile/energy_cable_in.png"));
     }
 
     @Override

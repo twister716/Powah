@@ -3,7 +3,6 @@ package owmii.powah.block.magmator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -58,7 +57,8 @@ public class MagmatorBlock extends AbstractGeneratorBlock<MagmatorBlock> {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+            BlockHitResult pHitResult) {
         BlockEntity tile = pLevel.getBlockEntity(pPos);
         if (tile instanceof MagmatorTile magmator) {
             Tank tank = magmator.getTank();

@@ -1,11 +1,11 @@
 package owmii.powah.item;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -22,23 +22,24 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import owmii.powah.api.wrench.IWrench;
 import owmii.powah.api.wrench.IWrenchable;
 import owmii.powah.api.wrench.WrenchMode;
 import owmii.powah.block.cable.CableBlock;
 import owmii.powah.block.cable.CableTile;
 import owmii.powah.block.energizing.EnergizingOrbBlock;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.lib.block.AbstractEnergyBlock;
 import owmii.powah.lib.client.handler.IHudItem;
 import owmii.powah.lib.item.ItemBase;
 import owmii.powah.lib.logistics.energy.SideConfig;
 
 public class WrenchItem extends ItemBase implements IHudItem, IWrench {
+    private static final WrenchMode DEFAULT_WRENCH_MODE = WrenchMode.values()[0];
     private static final Direction[] DIRECTIONS = Direction.values();
 
     public WrenchItem(Properties properties) {
-        super(properties);
+        super(properties.component(PowahComponents.WRENCH_MODE, DEFAULT_WRENCH_MODE));
     }
 
     @Override
@@ -82,7 +83,8 @@ public class WrenchItem extends ItemBase implements IHudItem, IWrench {
                 final BlockState rotatedState = rotateState(world, state, pos);
                 if (!state.equals(rotatedState)) {
                     world.setBlockAndUpdate(pos, rotatedState);
-                    world.playSound(player, pos, rotatedState.getBlock().getSoundType(rotatedState, world, pos, player).getPlaceSound(), SoundSource.BLOCKS, 1F, 1F);
+                    world.playSound(player, pos, rotatedState.getBlock().getSoundType(rotatedState, world, pos, player).getPlaceSound(),
+                            SoundSource.BLOCKS, 1F, 1F);
                     return InteractionResult.sidedSuccess(world.isClientSide);
                 }
             }
@@ -165,25 +167,19 @@ public class WrenchItem extends ItemBase implements IHudItem, IWrench {
     }
 
     private void nextWrenchMode(ItemStack stack) {
-        CompoundTag nbt = getWrenchNBT(stack);
-        int i = nbt.getInt("WrenchMode") + 1;
-        int j = WrenchMode.values().length - 1;
-        nbt.putInt("WrenchMode", i > j ? 0 : i);
+        var mode = getWrenchMode(stack);
+        mode = WrenchMode.BY_ID.apply(mode.ordinal() + 1);
+        stack.set(PowahComponents.WRENCH_MODE, mode);
     }
 
     private void prevWrenchMode(ItemStack stack) {
-        CompoundTag nbt = getWrenchNBT(stack);
-        int i = nbt.getInt("WrenchMode") - 1;
-        int j = WrenchMode.values().length - 1;
-        nbt.putInt("WrenchMode", i < j ? j : i);
+        var mode = getWrenchMode(stack);
+        mode = WrenchMode.BY_ID.apply(mode.ordinal() - 1);
+        stack.set(PowahComponents.WRENCH_MODE, mode);
     }
 
     @Override
     public WrenchMode getWrenchMode(ItemStack stack) {
-        return WrenchMode.values()[getWrenchNBT(stack).getInt("WrenchMode")];
-    }
-
-    public CompoundTag getWrenchNBT(ItemStack stack) {
-        return stack.getOrCreateTagElement("PowahWrenchNBT");
+        return Objects.requireNonNullElse(stack.get(PowahComponents.WRENCH_MODE), DEFAULT_WRENCH_MODE);
     }
 }

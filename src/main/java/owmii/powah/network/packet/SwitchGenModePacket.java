@@ -13,8 +13,7 @@ public record SwitchGenModePacket(BlockPos pos) implements ServerboundPacket {
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SwitchGenModePacket> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC, SwitchGenModePacket::pos,
-            SwitchGenModePacket::new
-    );
+            SwitchGenModePacket::new);
 
     @Override
     public Type<SwitchGenModePacket> type() {

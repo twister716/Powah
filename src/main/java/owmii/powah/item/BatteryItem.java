@@ -1,5 +1,6 @@
 package owmii.powah.item;
 
+import java.util.Objects;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -10,6 +11,7 @@ import net.minecraft.world.level.Level;
 import owmii.powah.Powah;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
 import owmii.powah.block.Tier;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.config.IEnergyConfig;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.item.EnergyItem;
@@ -69,11 +71,15 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
     }
 
     private boolean isCharging(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("charging");
+        return Objects.requireNonNullElse(stack.get(PowahComponents.CHARGING), false);
     }
 
     private void setCharging(ItemStack stack, boolean charging) {
-        stack.getOrCreateTag().putBoolean("charging", charging);
+        if (!charging) {
+            stack.remove(PowahComponents.CHARGING);
+        } else {
+            stack.set(PowahComponents.CHARGING, true);
+        }
     }
 
     @Override

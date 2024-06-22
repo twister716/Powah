@@ -1,13 +1,11 @@
 package owmii.powah.client;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import owmii.powah.Powah;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.item.Itms;
 
 public class ItemModelProperties {
@@ -18,11 +16,8 @@ public class ItemModelProperties {
 
     static float renderBindingCard(ItemStack stack, ClientLevel level, LivingEntity livingEntity, int seed) {
         float f = 0.0F;
-        CompoundTag nbt = stack.getTag();
-        if (nbt != null) {
-            if (nbt.hasUUID("bound_player_id")) {
-                f = 1.0F;
-            }
+        if (stack.has(PowahComponents.BOUND_PLAYER)) {
+            f = 1.0F;
         }
         return f;
     }

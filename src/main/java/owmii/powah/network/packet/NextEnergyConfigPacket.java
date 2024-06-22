@@ -12,15 +12,13 @@ import owmii.powah.network.ServerboundPacket;
 
 public record NextEnergyConfigPacket(
         int mode,
-        BlockPos pos
-) implements ServerboundPacket {
+        BlockPos pos) implements ServerboundPacket {
     public static final Type<NextEnergyConfigPacket> TYPE = new Type<>(Powah.id("next_energy_config"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, NextEnergyConfigPacket> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, NextEnergyConfigPacket::mode,
             BlockPos.STREAM_CODEC, NextEnergyConfigPacket::pos,
-            NextEnergyConfigPacket::new
-    );
+            NextEnergyConfigPacket::new);
 
     @Override
     public Type<NextEnergyConfigPacket> type() {

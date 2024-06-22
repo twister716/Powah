@@ -1,15 +1,14 @@
 package owmii.powah.lib.logistics.energy;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.Nullable;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.item.IEnergyContainingItem;
-import owmii.powah.util.NBT;
-import owmii.powah.util.Stack;
 import owmii.powah.util.Util;
 
 public class Energy {
@@ -21,8 +20,6 @@ public class Energy {
     private long stored;
     private long maxExtract;
     private long maxReceive;
-    @Nullable
-    public Object platformWrapper;
 
     public Energy(Energy energy) {
         this(energy.capacity, energy.maxExtract, energy.maxReceive);
@@ -266,11 +263,12 @@ public class Energy {
         public Item(ItemStack stack, long capacity, long maxExtract, long maxReceive) {
             super(capacity, maxExtract, maxReceive);
             this.stack = stack;
-            read(Stack.getTagOrEmpty(stack).getCompound(NBT.TAG_STORABLE_STACK), false, false);
+            long stored = Objects.requireNonNullElse(stack.get(PowahComponents.ENERGY_STORED), 0L);
+            this.setStored(stored);
         }
 
         private void write() {
-            this.write(this.stack.getOrCreateTagElement(NBT.TAG_STORABLE_STACK), false, false);
+            this.stack.set(PowahComponents.ENERGY_STORED, this.getStored());
         }
 
         @Override

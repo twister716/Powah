@@ -24,7 +24,7 @@ import owmii.powah.lib.client.util.Render;
 import owmii.powah.lib.client.util.RenderTypes;
 
 public class ReactorOverlayHandler {
-    static final ResourceLocation OV_TEXTURE = Powah.id( "textures/misc/reactor_ov.png");
+    static final ResourceLocation OV_TEXTURE = Powah.id("textures/misc/reactor_ov.png");
 
     public static void onRenderLast(PoseStack matrix) {
         Minecraft mc = Minecraft.getInstance();
@@ -81,14 +81,14 @@ public class ReactorOverlayHandler {
             MultiBufferSource.BufferSource rtb = mc.renderBuffers().bufferSource();
             VertexConsumer buffer = rtb.getBuffer(RenderTypes.getTextBlended(OV_TEXTURE));
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-            buffer.addVertex(matrix.last().pose(), pos.getX(), pos.getY(), pos.getZ() + 3).setColor(r, g, b, 1.0F).setUv(0.0F, 1.0F).setLight(Render.MAX_LIGHT)
-                    ;
-            buffer.addVertex(matrix.last().pose(), pos.getX() + 3, pos.getY(), pos.getZ() + 3).setColor(r, g, b, 1.0F).setUv(1.0F, 1.0F).setLight(Render.MAX_LIGHT)
-                    ;
-            buffer.addVertex(matrix.last().pose(), pos.getX() + 3, pos.getY(), pos.getZ()).setColor(r, g, b, 1.0F).setUv(1.0F, 0.0F).setLight(Render.MAX_LIGHT)
-                    ;
-            buffer.addVertex(matrix.last().pose(), pos.getX(), pos.getY(), pos.getZ()).setColor(r, g, b, 1.0F).setUv(0.0F, 0.0F).setLight(Render.MAX_LIGHT)
-                    ;
+            buffer.addVertex(matrix.last().pose(), pos.getX(), pos.getY(), pos.getZ() + 3).setColor(r, g, b, 1.0F).setUv(0.0F, 1.0F)
+                    .setLight(Render.MAX_LIGHT);
+            buffer.addVertex(matrix.last().pose(), pos.getX() + 3, pos.getY(), pos.getZ() + 3).setColor(r, g, b, 1.0F).setUv(1.0F, 1.0F)
+                    .setLight(Render.MAX_LIGHT);
+            buffer.addVertex(matrix.last().pose(), pos.getX() + 3, pos.getY(), pos.getZ()).setColor(r, g, b, 1.0F).setUv(1.0F, 0.0F)
+                    .setLight(Render.MAX_LIGHT);
+            buffer.addVertex(matrix.last().pose(), pos.getX(), pos.getY(), pos.getZ()).setColor(r, g, b, 1.0F).setUv(0.0F, 0.0F)
+                    .setLight(Render.MAX_LIGHT);
             rtb.endBatch(RenderTypes.getTextBlended(OV_TEXTURE));
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             matrix.popPose();

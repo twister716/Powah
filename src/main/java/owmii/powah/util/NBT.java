@@ -1,7 +1,6 @@
 package owmii.powah.util;
 
 import java.util.Collection;
-import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -9,27 +8,6 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 
 public class NBT {
-    public static final String TAG_STORABLE_STACK = "powah_tile_data"; // TODO ARCH: cleanup, probably?
-
-    public static <T extends Collection<UUID>> T readUUIDList(CompoundTag nbt, String key, T list) {
-        ListTag listNBT = nbt.getList(key, Tag.TAG_COMPOUND);
-        for (int i = 0; i < listNBT.size(); i++) {
-            CompoundTag compound = listNBT.getCompound(i);
-            list.add(compound.getUUID("uuid"));
-        }
-        return list;
-    }
-
-    public static void writeUUIDList(CompoundTag nbt, Collection<UUID> list, String key) {
-        ListTag listNBT = new ListTag();
-        list.forEach(pos -> {
-            CompoundTag compound = new CompoundTag();
-            compound.putUUID("uuid", pos);
-            listNBT.add(compound);
-        });
-        nbt.put(key, listNBT);
-    }
-
     public static <T extends Collection<BlockPos>> T readPosList(CompoundTag nbt, String key, T list) {
         ListTag listNBT = nbt.getList(key, Tag.TAG_COMPOUND);
         for (int i = 0; i < listNBT.size(); i++) {
@@ -50,7 +28,7 @@ public class NBT {
     }
 
     public static BlockPos readPos(CompoundTag nbt, String key) {
-        return NbtUtils.readBlockPos(nbt.getCompound(key));
+        return NbtUtils.readBlockPos(nbt, key).orElse(BlockPos.ZERO);
     }
 
     public static void writePos(CompoundTag nbt, BlockPos pos, String key) {

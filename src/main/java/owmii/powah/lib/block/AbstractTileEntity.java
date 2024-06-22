@@ -7,18 +7,18 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.lib.logistics.IRedstoneInteract;
 import owmii.powah.lib.logistics.Redstone;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
-import owmii.powah.util.NBT;
-import owmii.powah.util.Stack;
 
 @SuppressWarnings("unchecked")
 public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B>> extends BlockEntity implements IBlockEntity, IRedstoneInteract {
@@ -154,9 +154,9 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
 
     @Override
     public void onPlaced(Level world, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        CompoundTag tag = Stack.getTagOrEmpty(stack);
-        if (!tag.isEmpty()) {
-            readStorable(tag.getCompound(NBT.TAG_STORABLE_STACK), level.registryAccess());
+        var storedState = stack.get(PowahComponents.STORED_BLOCK_ENTITY_STATE);
+        if (storedState != null) {
+            readStorable(storedState.copyTag(), level.registryAccess());
         }
     }
 
@@ -173,10 +173,8 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
 
     public ItemStack storeToStack(ItemStack stack) {
         CompoundTag nbt = writeStorable(new CompoundTag(), level.registryAccess());
-        CompoundTag nbt1 = Stack.getTagOrEmpty(stack);
         if (!nbt.isEmpty() && keepStorable()) {
-            nbt1.put(NBT.TAG_STORABLE_STACK, nbt);
-            stack.setTag(nbt1);
+            stack.set(PowahComponents.STORED_BLOCK_ENTITY_STATE, CustomData.of(nbt));
         }
         return stack;
     }

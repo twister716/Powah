@@ -3,7 +3,6 @@ package owmii.powah.item;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,11 +18,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 import owmii.powah.Powah;
+import owmii.powah.components.BoundPlayer;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.lib.item.ItemBase;
 import owmii.powah.util.Player;
-import owmii.powah.util.Stack;
 
 public class BindingCardItem extends ItemBase {
     private final boolean isMultiDim;
@@ -42,12 +41,7 @@ public class BindingCardItem extends ItemBase {
                     if (!playerIn.level().isClientSide) {
                         ItemStack stack1 = playerIn.getItemInHand(hand);
                         ItemStack stack2 = new ItemStack(Itms.BINDING_CARD_DIM.get());
-                        CompoundTag nbt = Stack.getTagOrEmpty(stack1);
-                        if (nbt.hasUUID("bound_player_id")) {
-                            CompoundTag nbt1 = stack2.getOrCreateTag();
-                            nbt1.putUUID("bound_player_id", nbt.getUUID("bound_player_id"));
-                            nbt1.putString("bound_player_name", nbt.getString("bound_player_name"));
-                        }
+                        stack2.copyFrom(stack1, PowahComponents.BOUND_PLAYER);
                         playerIn.setItemInHand(hand, stack2);
                         target.playSound(SoundEvents.ENDERMAN_DEATH, 0.5F, 1.0F);
                         target.remove(Entity.RemovalReason.KILLED);
@@ -62,30 +56,35 @@ public class BindingCardItem extends ItemBase {
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, net.minecraft.world.entity.player.Player playerIn, InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
-        CompoundTag nbt = stack.getOrCreateTag();
-        if (!nbt.hasUUID("bound_player_id")) {
-            nbt.putUUID("bound_player_id", playerIn.getUUID());
-            nbt.putString("bound_player_name", playerIn.getDisplayName().getString());
+        var boundPlayer = stack.get(PowahComponents.BOUND_PLAYER);
+        if (boundPlayer == null) {
+            stack.set(PowahComponents.BOUND_PLAYER, new BoundPlayer(
+                    playerIn.getUUID(),
+                    playerIn.getDisplayName().getString()));
             return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
-        } else if (!playerIn.getUUID().equals(nbt.getUUID("bound_player_id"))) {
+        } else if (!playerIn.getUUID().equals(boundPlayer.gameProfileId())) {
             playerIn.displayClientMessage(
-                    Component.translatable("chat.powah.no.binding", nbt.getString("bound_player_name")).withStyle(ChatFormatting.DARK_RED), true);
+                    Component.translatable("chat.powah.no.binding", boundPlayer.name()).withStyle(ChatFormatting.DARK_RED), true);
             return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
         }
         return new InteractionResultHolder<>(InteractionResult.PASS, stack);
     }
 
     public Optional<ServerPlayer> getPlayer(ServerLevel level, ItemStack stack) {
-        return Player.get(level, Stack.getTagOrEmpty(stack).getUUID("bound_player_id"));
+        var boundPlayer = stack.get(PowahComponents.BOUND_PLAYER);
+        if (boundPlayer == null) {
+            return Optional.empty();
+        }
+        return Player.get(level, boundPlayer.gameProfileId());
     }
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
-        CompoundTag nbt = stack.getTag();
-        if (nbt == null) {
+        var boundPlayer = stack.get(PowahComponents.BOUND_PLAYER);
+        if (boundPlayer == null) {
             tooltip.add(Component.translatable("info.powah.click.to.bind").withStyle(ChatFormatting.DARK_GRAY));
-        } else if (nbt.hasUUID("bound_player_id")) {
-            tooltip.add(Component.translatable("info.lollipop.owner", ChatFormatting.YELLOW + nbt.getString("bound_player_name"))
+        } else {
+            tooltip.add(Component.translatable("info.lollipop.owner", ChatFormatting.YELLOW + boundPlayer.name())
                     .withStyle(ChatFormatting.GRAY));
         }
     }

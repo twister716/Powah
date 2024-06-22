@@ -15,7 +15,7 @@ import owmii.powah.block.Blcks;
 import owmii.powah.compat.common.SolidCoolant;
 
 class EmiSolidCoolantRecipe implements EmiRecipe {
-    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
+    public static final ResourceLocation GUI_BACK = Powah.id("textures/gui/jei/misc.png");
 
     public static final PowahEmiCategory CATEGORY = new PowahEmiCategory(Powah.id("solid_coolant"), EmiStack.of(Blcks.DRY_ICE.get()),
             Component.translatable("gui.powah.jei.category.solid.coolant"));

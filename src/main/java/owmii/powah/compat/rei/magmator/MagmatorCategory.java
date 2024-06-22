@@ -18,8 +18,8 @@ import owmii.powah.block.Blcks;
 import owmii.powah.block.Tier;
 
 public class MagmatorCategory implements DisplayCategory<MagmatorDisplay> {
-    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/misc.png");
-    public static final CategoryIdentifier<MagmatorDisplay> ID = CategoryIdentifier.of(Powah.id( "magmatic"));
+    public static final ResourceLocation GUI_BACK = Powah.id("textures/gui/jei/misc.png");
+    public static final CategoryIdentifier<MagmatorDisplay> ID = CategoryIdentifier.of(Powah.id("magmatic"));
     private final Renderer icon;
 
     public MagmatorCategory() {

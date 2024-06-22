@@ -1,6 +1,5 @@
 package owmii.powah.lib.client.util;
 
-import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.math.Transformation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

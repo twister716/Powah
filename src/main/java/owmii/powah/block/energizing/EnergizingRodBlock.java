@@ -12,9 +12,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -38,6 +35,7 @@ import owmii.powah.Powah;
 import owmii.powah.api.wrench.IWrenchable;
 import owmii.powah.api.wrench.WrenchMode;
 import owmii.powah.block.Tier;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.item.WrenchItem;
 import owmii.powah.lib.block.AbstractEnergyBlock;
@@ -121,16 +119,11 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
         if (mode.link()) {
             ItemStack stack = player.getItemInHand(hand);
             if (stack.getItem() instanceof WrenchItem) {
-                WrenchItem wrench = (WrenchItem) stack.getItem();
                 BlockEntity tileEntity = world.getBlockEntity(pos);
-                if (tileEntity instanceof EnergizingRodTile) {
-                    EnergizingRodTile rod = (EnergizingRodTile) tileEntity;
-                    CompoundTag nbt = wrench.getWrenchNBT(stack);
-                    if (nbt.contains("OrbPos", Tag.TAG_COMPOUND)) {
-                        BlockPos orbPos = NbtUtils.readBlockPos(nbt.getCompound("OrbPos"));
-                        BlockEntity tileEntity1 = world.getBlockEntity(orbPos);
-                        if (tileEntity1 instanceof EnergizingOrbTile) {
-                            EnergizingOrbTile orb = (EnergizingOrbTile) tileEntity1;
+                if (tileEntity instanceof EnergizingRodTile rod) {
+                    var orbPos = stack.get(PowahComponents.LINK_ORB_POS);
+                    if (orbPos != null) {
+                        if (world.getBlockEntity(orbPos) instanceof EnergizingOrbTile) {
                             V3d v3d = V3d.from(orbPos);
                             if ((int) v3d.distance(pos) <= Powah.config().general.energizing_range) {
                                 rod.setOrbPos(orbPos);
@@ -141,9 +134,9 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
                                         true);
                             }
                         }
-                        nbt.remove("OrbPos");
+                        stack.remove(PowahComponents.LINK_ORB_POS);
                     } else {
-                        nbt.put("RodPos", NbtUtils.writeBlockPos(pos));
+                        stack.set(PowahComponents.LINK_ROD_POS, pos);
                         player.displayClientMessage(Component.translatable("chat.powah.wrench.link.start").withStyle(ChatFormatting.YELLOW), true);
                     }
                     return true;

@@ -1,5 +1,6 @@
 package owmii.powah.item;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -14,15 +15,14 @@ import owmii.powah.lib.logistics.energy.Energy;
 
 public class EnergyCellItem extends EnergyBlockItem<EnergyConfig, EnergyCellBlock> implements IEnderExtender {
     public EnergyCellItem(EnergyCellBlock block, Properties properties, @Nullable ResourceKey<CreativeModeTab> group) {
-        super(block, properties, group);
+        super(block, applyRarity(block, properties), group);
     }
 
-    @Override
-    public Rarity getRarity(ItemStack stack) {
-        if (getVariant().equals(Tier.CREATIVE)) {
-            return Rarity.EPIC;
+    private static Properties applyRarity(EnergyCellBlock block, Properties properties) {
+        if (block.getVariant().equals(Tier.CREATIVE)) {
+            return properties.component(DataComponents.RARITY, Rarity.EPIC);
         }
-        return super.getRarity(stack);
+        return properties;
     }
 
     @Override

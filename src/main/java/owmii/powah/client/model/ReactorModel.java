@@ -9,7 +9,6 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.block.reactor.ReactorTile;
@@ -35,7 +34,7 @@ public class ReactorModel extends AbstractModel<ReactorTile, ReactorRenderer> {
 
     @Override
     public void render(ReactorTile te, ReactorRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
-        VertexConsumer buffer = rtb.getBuffer(renderType(Powah.id( "textures/model/tile/reactor.png")));
+        VertexConsumer buffer = rtb.getBuffer(renderType(Powah.id("textures/model/tile/reactor.png")));
         this.reactor.render(matrix, buffer, light, ov);
 
         int i = Render.MAX_LIGHT - light;
@@ -43,18 +42,18 @@ public class ReactorModel extends AbstractModel<ReactorTile, ReactorRenderer> {
         int br = light + i1;
 
         if (te.isRunning()) {
-            VertexConsumer buffer_on = rtb.getBuffer(renderType(Powah.id( "textures/model/tile/reactor_on.png")));
+            VertexConsumer buffer_on = rtb.getBuffer(renderType(Powah.id("textures/model/tile/reactor_on.png")));
             this.reactor.render(matrix, buffer_on, light, ov);
         }
 
         if (!te.fuel.isEmpty()) {
-            VertexConsumer buffer_on = rtb.getBuffer(renderType(Powah.id( "textures/model/tile/reactor_filled.png")));
+            VertexConsumer buffer_on = rtb.getBuffer(renderType(Powah.id("textures/model/tile/reactor_filled.png")));
             this.reactor.render(matrix, buffer_on, br, ov);
         }
 
         if (te.getVariant() != Tier.STARTER) {
             VertexConsumer buffer_type = rtb
-                    .getBuffer(renderType(Powah.id( "textures/model/tile/reactor_" + te.getVariant().getName() + ".png")));
+                    .getBuffer(renderType(Powah.id("textures/model/tile/reactor_" + te.getVariant().getName() + ".png")));
             this.reactor.render(matrix, buffer_type, light, ov);
         }
     }

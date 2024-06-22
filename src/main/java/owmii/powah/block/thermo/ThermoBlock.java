@@ -47,7 +47,8 @@ public class ThermoBlock extends AbstractGeneratorBlock<ThermoBlock> {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+            BlockHitResult pHitResult) {
         BlockEntity tile = pLevel.getBlockEntity(pPos);
         if (tile instanceof ThermoTile genTile) {
             Tank tank = genTile.getTank();

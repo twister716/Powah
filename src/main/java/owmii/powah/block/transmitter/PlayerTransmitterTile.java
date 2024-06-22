@@ -9,12 +9,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.item.BindingCardItem;
 import owmii.powah.lib.block.AbstractEnergyStorage;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.util.ChargeUtil;
-import owmii.powah.util.Stack;
 
 public class PlayerTransmitterTile extends AbstractEnergyStorage<ChargingConfig, PlayerTransmitterBlock> implements IInventoryHolder {
 
@@ -54,7 +54,7 @@ public class PlayerTransmitterTile extends AbstractEnergyStorage<ChargingConfig,
 
     @Override
     public boolean canInsert(int slot, ItemStack stack) {
-        return Stack.getTagOrEmpty(stack).hasUUID("bound_player_id");
+        return stack.has(PowahComponents.BOUND_PLAYER);
     }
 
     @Override

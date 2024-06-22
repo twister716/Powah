@@ -8,7 +8,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 import owmii.powah.Powah;
 import owmii.powah.block.reactor.ReactorTile;
@@ -35,7 +34,7 @@ public class ReactorRenderer extends AbstractTileRenderer<ReactorTile> {
         matrix.scale(1.0f, -1.0f, -1.0f);
         if (!te.isBuilt()) {
             VertexConsumer buffer = rtb.getBuffer(reactorPartModel
-                    .renderType(Powah.id( "textures/model/tile/reactor_block_" + te.getVariant().getName() + ".png")));
+                    .renderType(Powah.id("textures/model/tile/reactor_block_" + te.getVariant().getName() + ".png")));
             reactorPartModel.renderToBuffer(matrix, buffer, light, ov, -1);
         } else {
             matrix.translate(0.0D, -1.0D, 0.0D);

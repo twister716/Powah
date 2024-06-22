@@ -13,7 +13,7 @@ import owmii.powah.block.energizing.EnergizingRecipe;
 import owmii.powah.util.Util;
 
 class EmiEnergizingRecipe extends BasicEmiRecipe {
-    public static final ResourceLocation GUI_BACK = Powah.id( "textures/gui/jei/energizing.png");
+    public static final ResourceLocation GUI_BACK = Powah.id("textures/gui/jei/energizing.png");
 
     public static final PowahEmiCategory CATEGORY = new PowahEmiCategory(Powah.id("energizizng"), EmiStack.of(Blcks.ENERGIZING_ORB.get()),
             Component.translatable("gui.powah.jei.category.energizing"));

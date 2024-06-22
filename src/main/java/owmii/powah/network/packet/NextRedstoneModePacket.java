@@ -14,8 +14,7 @@ public record NextRedstoneModePacket(BlockPos pos) implements ServerboundPacket 
 
     public static final StreamCodec<RegistryFriendlyByteBuf, NextRedstoneModePacket> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC, NextRedstoneModePacket::pos,
-            NextRedstoneModePacket::new
-    );
+            NextRedstoneModePacket::new);
 
     @Override
     public Type<NextRedstoneModePacket> type() {
@@ -25,7 +24,7 @@ public record NextRedstoneModePacket(BlockPos pos) implements ServerboundPacket 
     @Override
     public void handleOnServer(ServerPlayer player) {
         BlockEntity tileEntity = player.serverLevel().getBlockEntity(pos);
-        if (tileEntity instanceof AbstractTileEntity<?, ?> ate) {
+        if (tileEntity instanceof AbstractTileEntity<?, ?>ate) {
             ate.nextRedstoneMode();
             ate.sync();
         }

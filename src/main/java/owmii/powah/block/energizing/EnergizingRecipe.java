@@ -3,6 +3,9 @@ package owmii.powah.block.energizing;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -10,7 +13,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -20,10 +22,6 @@ import net.minecraft.world.level.Level;
 import owmii.powah.Powah;
 import owmii.powah.recipe.Recipes;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 public class EnergizingRecipe implements Recipe<RecipeInput> {
     public static final ResourceLocation ID = Powah.id("energizing");
     private final ItemStack output;
@@ -31,13 +29,12 @@ public class EnergizingRecipe implements Recipe<RecipeInput> {
     private final NonNullList<Ingredient> ingredients;
 
     public static final MapCodec<EnergizingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-                    ItemStack.CODEC.fieldOf("result").forGetter(e -> e.output),
-                    Codec.LONG.fieldOf("energy").forGetter(e -> e.energy),
-                    Ingredient.CODEC_NONEMPTY
-                            .listOf()
-                            .fieldOf("ingredients")
-                            .forGetter(e -> e.ingredients)
-            )
+            ItemStack.CODEC.fieldOf("result").forGetter(e -> e.output),
+            Codec.LONG.fieldOf("energy").forGetter(e -> e.energy),
+            Ingredient.CODEC_NONEMPTY
+                    .listOf()
+                    .fieldOf("ingredients")
+                    .forGetter(e -> e.ingredients))
             .apply(builder, EnergizingRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, EnergizingRecipe> STREAM_CODEC = StreamCodec.composite(

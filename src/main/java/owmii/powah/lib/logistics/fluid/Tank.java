@@ -1,7 +1,6 @@
 package owmii.powah.lib.logistics.fluid;
 
 import java.util.function.Predicate;
-import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class Tank extends FluidTank {
