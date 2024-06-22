@@ -3,11 +3,12 @@ package owmii.powah.block.thermo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,17 +47,16 @@ public class ThermoBlock extends AbstractGeneratorBlock<ThermoBlock> {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
-            BlockHitResult blockRayTraceResult) {
-        BlockEntity tile = world.getBlockEntity(pos);
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        BlockEntity tile = pLevel.getBlockEntity(pPos);
         if (tile instanceof ThermoTile genTile) {
             Tank tank = genTile.getTank();
-            if (FluidUtil.interactWithFluidHandler(player, hand, tank)) {
+            if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
                 genTile.sync();
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
         }
-        return super.use(state, world, pos, player, hand, blockRayTraceResult);
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Nullable

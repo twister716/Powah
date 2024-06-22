@@ -3,6 +3,7 @@ package owmii.powah.block.furnator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.CommonHooks;
@@ -58,7 +59,7 @@ public class FurnatorTile extends AbstractEnergyProvider<FurnatorBlock> implemen
             if (this.carbon.isEmpty()) {
                 ItemStack stack = this.inv.getStackInSlot(1);
                 if (!stack.isEmpty()) {
-                    int burnTime = CommonHooks.getBurnTime(stack, null);
+                    int burnTime = stack.getBurnTime(RecipeType.SMELTING);
                     if (burnTime > 0) {
                         long perFuelTick = Powah.config().general.energy_per_fuel_tick;
                         this.carbon.setAll(burnTime * perFuelTick);
@@ -103,7 +104,7 @@ public class FurnatorTile extends AbstractEnergyProvider<FurnatorBlock> implemen
 
     @Override
     public boolean canInsert(int index, ItemStack stack) {
-        return index == 1 && CommonHooks.getBurnTime(stack, null) > 0
+        return index == 1 && stack.getBurnTime(RecipeType.SMELTING) > 0
                 || index == 0 && Energy.chargeable(stack);
     }
 
