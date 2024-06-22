@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
@@ -88,9 +89,9 @@ public class PowahEmiPlugin implements EmiPlugin {
         registry.addGenericExclusionArea(PowahEmiPlugin::getExclusionAreas);
     }
 
-    private static <C extends Container, T extends Recipe<C>> void adaptRecipeType(EmiRegistry registry,
-            RecipeType<T> recipeType,
-            Function<RecipeHolder<T>, ? extends EmiRecipe> adapter) {
+    private static <C extends RecipeInput, T extends Recipe<C>> void adaptRecipeType(EmiRegistry registry,
+                                                                                     RecipeType<T> recipeType,
+                                                                                     Function<RecipeHolder<T>, ? extends EmiRecipe> adapter) {
         registry.getRecipeManager().getAllRecipesFor(recipeType)
                 .stream()
                 .map(adapter)

@@ -1,6 +1,7 @@
 package owmii.powah.block.magmator;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -34,17 +35,17 @@ public class MagmatorTile extends AbstractEnergyProvider<MagmatorBlock> implemen
     }
 
     @Override
-    public void readSync(CompoundTag nbt) {
-        super.readSync(nbt);
+    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.readSync(nbt, registries);
         this.energy.read(nbt, "energy_buffer", true, false);
         this.burning = nbt.getBoolean("burning");
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt) {
+    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
         this.energy.write(nbt, "energy_buffer", true, false);
         nbt.putBoolean("burning", this.burning);
-        return super.writeSync(nbt);
+        return super.writeSync(nbt, registries);
     }
 
     @Override

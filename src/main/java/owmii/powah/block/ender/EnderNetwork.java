@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.MinecraftServer;
@@ -49,7 +51,7 @@ public class EnderNetwork extends SavedData {
     private EnderNetwork() {
     }
 
-    private EnderNetwork(CompoundTag nbt) {
+    private EnderNetwork(CompoundTag nbt, HolderLookup.Provider registries) {
         ListTag listNBT = nbt.getList("network", 10);
         this.map.clear();
         for (int i = 0; i < listNBT.size(); i++) {
@@ -64,7 +66,7 @@ public class EnderNetwork extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag nbt) {
+    public CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
         ListTag listNBT = new ListTag();
         this.map.forEach((uuid, list) -> {
             CompoundTag nbt1 = new CompoundTag();

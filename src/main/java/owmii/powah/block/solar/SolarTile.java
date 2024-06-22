@@ -2,6 +2,7 @@ package owmii.powah.block.solar;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -32,17 +33,17 @@ public class SolarTile extends AbstractEnergyProvider<SolarBlock> implements IIn
     }
 
     @Override
-    public void readSync(CompoundTag compound) {
-        super.readSync(compound);
+    public void readSync(CompoundTag compound, HolderLookup.Provider registries) {
+        super.readSync(compound, registries);
         this.canSeeSky = compound.getBoolean(CAN_SEE_SKY);
         this.hasLensOfEnder = compound.getBoolean(HAS_LENS_OF_ENDER);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag compound) {
+    public CompoundTag writeSync(CompoundTag compound, HolderLookup.Provider registries) {
         compound.putBoolean(CAN_SEE_SKY, this.canSeeSky);
         compound.putBoolean(HAS_LENS_OF_ENDER, this.hasLensOfEnder);
-        return super.writeSync(compound);
+        return super.writeSync(compound, registries);
     }
 
     @Override

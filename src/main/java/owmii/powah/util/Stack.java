@@ -32,7 +32,7 @@ public class Stack {
     }
 
     public static boolean equals(ItemStack stack, ItemStack other) {
-        return !stack.isEmpty() && ItemStack.isSameItemSameTags(stack, other);
+        return !stack.isEmpty() && ItemStack.isSameItemSameComponents(stack, other);
     }
 
     public static boolean isFull(ItemStack stack) {

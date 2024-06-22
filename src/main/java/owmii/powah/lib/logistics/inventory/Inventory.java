@@ -3,6 +3,7 @@ package owmii.powah.lib.logistics.inventory;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
@@ -56,16 +57,16 @@ public class Inventory extends ItemStackHandler {
         this.tile = tile;
     }
 
-    public void deserializeNBT(CompoundTag nbt) {
+    public void deserializeNBT(CompoundTag nbt, HolderLookup.Provider registries) {
         if (isBlank())
             return;
         nbt.putInt("Size", getSlots());
-        super.deserializeNBT(nbt);
+        super.deserializeNBT(nbt, registries);
     }
 
     @Override
-    public CompoundTag serializeNBT() {
-        return isBlank() ? new CompoundTag() : super.serializeNBT();
+    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
+        return isBlank() ? new CompoundTag() : super.serializeNBT(registries);
     }
 
     public Inventory set(int size) {

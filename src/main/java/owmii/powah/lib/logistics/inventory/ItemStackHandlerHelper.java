@@ -20,7 +20,7 @@ public class ItemStackHandlerHelper {
     }
 
     public static boolean canItemStacksStack(@NotNull ItemStack a, @NotNull ItemStack b) {
-        return ItemStack.isSameItemSameTags(a, b);
+        return ItemStack.isSameItemSameComponents(a, b);
     }
 
     @NotNull

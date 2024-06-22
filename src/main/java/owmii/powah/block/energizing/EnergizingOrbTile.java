@@ -1,19 +1,17 @@
 package owmii.powah.block.energizing;
 
-import java.util.List;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.Nullable;
 import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.AbstractTickableTile;
@@ -36,18 +34,18 @@ public class EnergizingOrbTile extends AbstractTickableTile<IVariant.Single, Ene
     }
 
     @Override
-    public void readSync(CompoundTag nbt) {
-        super.readSync(nbt);
+    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.readSync(nbt, registries);
         this.buffer.read(nbt, "buffer", true, false);
         this.buffer.setTransfer(this.buffer.getCapacity());
         this.containRecipe = nbt.getBoolean("contain_recipe");
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt) {
+    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
         this.buffer.write(nbt, "buffer", true, false);
         nbt.putBoolean("contain_recipe", this.containRecipe);
-        return super.writeSync(nbt);
+        return super.writeSync(nbt, registries);
     }
 
     public Direction getOrbUp() {

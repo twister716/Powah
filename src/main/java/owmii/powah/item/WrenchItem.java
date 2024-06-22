@@ -82,7 +82,7 @@ public class WrenchItem extends ItemBase implements IHudItem, IWrench {
                 final BlockState rotatedState = rotateState(world, state, pos);
                 if (!state.equals(rotatedState)) {
                     world.setBlockAndUpdate(pos, rotatedState);
-                    world.playSound(player, pos, rotatedState.getBlock().getSoundType(rotatedState).getPlaceSound(), SoundSource.BLOCKS, 1F, 1F);
+                    world.playSound(player, pos, rotatedState.getBlock().getSoundType(rotatedState, world, pos, player).getPlaceSound(), SoundSource.BLOCKS, 1F, 1F);
                     return InteractionResult.sidedSuccess(world.isClientSide);
                 }
             }

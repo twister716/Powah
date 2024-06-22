@@ -2,6 +2,7 @@ package owmii.powah.block.energizing;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -28,15 +29,15 @@ public class EnergizingRodTile extends AbstractEnergyStorage<EnergyConfig, Energ
     }
 
     @Override
-    public void readSync(CompoundTag nbt) {
-        super.readSync(nbt);
+    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.readSync(nbt, registries);
         this.orbPos = NBT.readPos(nbt, "OrbPos");
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt) {
+    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
         NBT.writePos(nbt, this.orbPos, "OrbPos");
-        return super.writeSync(nbt);
+        return super.writeSync(nbt, registries);
     }
 
     @Override

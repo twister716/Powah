@@ -24,7 +24,7 @@ public record FluidCoolant(ResourceLocation id, Fluid fluid, Set<BucketItem> buc
             if (fluid != Fluids.EMPTY) {
                 var buckets = new HashSet<BucketItem>();
                 var bucket = fluid.getBucket();
-                if (bucket instanceof BucketItem bucketItem && bucketItem.getFluid() == fluid) {
+                if (bucket instanceof BucketItem bucketItem && bucketItem.content == fluid) {
                     buckets.add(bucketItem);
                 }
 

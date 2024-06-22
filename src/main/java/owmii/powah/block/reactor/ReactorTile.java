@@ -2,13 +2,13 @@ package owmii.powah.block.reactor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.Tags;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
@@ -75,8 +75,8 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
     }
 
     @Override
-    public void readSync(CompoundTag nbt) {
-        super.readSync(nbt);
+    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.readSync(nbt, registries);
         this.builder.read(nbt);
         this.fuel.read(nbt, "fuel");
         this.carbon.read(nbt, "carbon");
@@ -90,7 +90,7 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt) {
+    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
         this.builder.write(nbt);
         this.fuel.write(nbt, "fuel");
         this.carbon.write(nbt, "carbon");
@@ -101,7 +101,7 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
         nbt.putBoolean("gen_mode", this.genModeOn);
         nbt.putBoolean("generate", this.generate);
         this.temp.write(nbt, "temperature");
-        return super.writeSync(nbt);
+        return super.writeSync(nbt, registries);
     }
 
     @Override

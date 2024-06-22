@@ -1,6 +1,7 @@
 package owmii.powah.block.thermo;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -34,15 +35,15 @@ public class ThermoTile extends AbstractEnergyProvider<ThermoBlock> implements I
     }
 
     @Override
-    public void readSync(CompoundTag nbt) {
-        super.readSync(nbt);
+    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.readSync(nbt, registries);
         this.generating = nbt.getLong("generating");
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt) {
+    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
         nbt.putLong("generating", this.generating);
-        return super.writeSync(nbt);
+        return super.writeSync(nbt, registries);
     }
 
     @Override

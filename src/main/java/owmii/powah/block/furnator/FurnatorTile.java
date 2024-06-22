@@ -1,12 +1,12 @@
 package owmii.powah.block.furnator;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.CommonHooks;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
@@ -29,27 +29,27 @@ public class FurnatorTile extends AbstractEnergyProvider<FurnatorBlock> implemen
     }
 
     @Override
-    public void readStorable(CompoundTag nbt) {
-        super.readStorable(nbt);
+    public void readStorable(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.readStorable(nbt, registries);
         this.carbon.read(nbt, "carbon");
     }
 
     @Override
-    public CompoundTag writeStorable(CompoundTag nbt) {
+    public CompoundTag writeStorable(CompoundTag nbt, HolderLookup.Provider registries) {
         this.carbon.write(nbt, "carbon");
-        return super.writeStorable(nbt);
+        return super.writeStorable(nbt, registries);
     }
 
     @Override
-    public void readSync(CompoundTag nbt) {
-        super.readSync(nbt);
+    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.readSync(nbt, registries);
         this.burning = nbt.getBoolean("burning");
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt) {
+    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
         nbt.putBoolean("burning", this.burning);
-        return super.writeSync(nbt);
+        return super.writeSync(nbt, registries);
     }
 
     @Override

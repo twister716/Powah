@@ -3,6 +3,7 @@ package owmii.powah.block.ender;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -37,8 +38,8 @@ public class AbstractEnderTile<B extends AbstractEnergyBlock<EnderConfig, B>> ex
     }
 
     @Override
-    public void readStorable(CompoundTag nbt) {
-        super.readStorable(nbt);
+    public void readStorable(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.readStorable(nbt, registries);
         this.channel.read(nbt, "channel");
         if (nbt.hasUUID("owner_id")) {
             this.owner = new GameProfile(nbt.getUUID("owner_id"), nbt.getString("owner_name"));
@@ -46,13 +47,13 @@ public class AbstractEnderTile<B extends AbstractEnergyBlock<EnderConfig, B>> ex
     }
 
     @Override
-    public CompoundTag writeStorable(CompoundTag nbt) {
+    public CompoundTag writeStorable(CompoundTag nbt, HolderLookup.Provider registries) {
         this.channel.write(nbt, "channel");
         if (this.owner != null) {
             nbt.putUUID("owner_id", this.owner.getId());
             nbt.putString("owner_name", this.owner.getName());
         }
-        return super.writeStorable(nbt);
+        return super.writeStorable(nbt, registries);
     }
 
     @Override

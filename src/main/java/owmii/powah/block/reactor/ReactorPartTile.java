@@ -3,6 +3,7 @@ package owmii.powah.block.reactor;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -41,19 +42,19 @@ public class ReactorPartTile extends AbstractTileEntity<Tier, ReactorBlock> {
     }
 
     @Override
-    public void readSync(CompoundTag compound) {
-        super.readSync(compound);
+    public void readSync(CompoundTag compound, HolderLookup.Provider registries) {
+        super.readSync(compound, registries);
         this.built = compound.getBoolean("built");
         this.extractor = compound.getBoolean("extractor");
         this.corePos = NBT.readPos(compound, "core_pos");
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag compound) {
+    public CompoundTag writeSync(CompoundTag compound, HolderLookup.Provider registries) {
         compound.putBoolean("built", this.built);
         compound.putBoolean("extractor", this.extractor);
         NBT.writePos(compound, this.corePos, "core_pos");
-        return super.writeSync(compound);
+        return super.writeSync(compound, registries);
     }
 
     public void demolish(Level world) {

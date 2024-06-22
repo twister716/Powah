@@ -1,6 +1,8 @@
 package owmii.powah.lib.logistics.fluid;
 
 import java.util.function.Predicate;
+
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -51,15 +53,15 @@ public class FluidTank implements IFluidHandler {
         return fluid.getAmount();
     }
 
-    public FluidTank readFromNBT(CompoundTag nbt) {
-        FluidStack fluid = FluidStack.loadFluidStackFromNBT(nbt.getCompound("tank"));
+    public FluidTank readFromNBT(CompoundTag nbt, HolderLookup.Provider registries) {
+        FluidStack fluid = FluidStack.parseOptional(registries, nbt.getCompound("tank"));
         setFluid(fluid);
         return this;
     }
 
-    public CompoundTag writeToNBT(CompoundTag nbt) {
+    public CompoundTag writeToNBT(CompoundTag nbt, HolderLookup.Provider registries) {
         if (!fluid.isEmpty()) {
-            nbt.put("tank", fluid.writeToNBT(new CompoundTag()));
+            nbt.put("tank", fluid.save(registries, new CompoundTag()));
         }
 
         return nbt;
@@ -98,7 +100,7 @@ public class FluidTank implements IFluidHandler {
             if (fluid.isEmpty()) {
                 return Math.min(capacity, resource.getAmount());
             }
-            if (!fluid.isFluidEqual(resource)) {
+            if (!FluidStack.isSameFluidSameComponents(fluid, resource)) {
                 return 0;
             }
             return Math.min(capacity - fluid.getAmount(), resource.getAmount());
@@ -109,7 +111,7 @@ public class FluidTank implements IFluidHandler {
             onContentsChanged();
             return fluid.getAmount();
         }
-        if (!fluid.isFluidEqual(resource)) {
+        if (!FluidStack.isSameFluidSameComponents(fluid, resource)) {
             return 0;
         }
         int filled = capacity - fluid.getAmount();
@@ -128,7 +130,7 @@ public class FluidTank implements IFluidHandler {
     @Override
     @NotNull
     public FluidStack drain(FluidStack resource, FluidAction action) {
-        if (resource.isEmpty() || !resource.isFluidEqual(fluid)) {
+        if (resource.isEmpty() || !FluidStack.isSameFluidSameComponents(resource, fluid)) {
             return FluidStack.EMPTY;
         }
         return drain(resource.getAmount(), action);

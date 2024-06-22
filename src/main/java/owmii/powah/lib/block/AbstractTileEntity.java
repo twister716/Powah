@@ -63,7 +63,7 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
 
-        readSync(tag);
+        readSync(tag, registries);
 
         if (!tag.contains("#c")) { // Server only...
             loadServerOnly(tag);
@@ -73,7 +73,7 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        writeSync(tag);
+        writeSync(tag, registries);
         saveServerOnly(tag);
     }
 
@@ -97,56 +97,56 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
         return compound;
     }
 
-    protected void readSync(CompoundTag nbt) {
+    protected void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
         if (!this.variant.isEmpty() && nbt.contains("variant", 3)) {
             this.variant = (V) this.variant.read(nbt, "variant");
         }
         if (this instanceof IInventoryHolder && !keepInventory()) {
-            this.inv.deserializeNBT(nbt);
+            this.inv.deserializeNBT(nbt, registries);
         }
         if (this instanceof ITankHolder tankHolder) {
             if (!tankHolder.keepFluid()) {
-                this.tank.readFromNBT(nbt);
+                this.tank.readFromNBT(nbt, registries);
             }
         }
         this.redstone = Redstone.values()[nbt.getInt("redstone_mode")];
-        readStorable(nbt);
+        readStorable(nbt, registries);
     }
 
-    protected CompoundTag writeSync(CompoundTag nbt) {
+    protected CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
         if (!this.variant.isEmpty()) {
             this.variant.write(nbt, (Enum<?>) this.variant, "variant");
         }
         if (this instanceof IInventoryHolder && !keepInventory()) {
-            nbt.merge(this.inv.serializeNBT());
+            nbt.merge(this.inv.serializeNBT(registries));
         }
         if (this instanceof ITankHolder tankHolder) {
             if (!tankHolder.keepFluid()) {
-                this.tank.writeToNBT(nbt);
+                this.tank.writeToNBT(nbt, registries);
             }
         }
         nbt.putInt("redstone_mode", this.redstone.ordinal());
-        return writeStorable(nbt);
+        return writeStorable(nbt, registries);
     }
 
-    public void readStorable(CompoundTag nbt) {
+    public void readStorable(CompoundTag nbt, HolderLookup.Provider registries) {
         if (this instanceof IInventoryHolder && keepInventory()) {
-            this.inv.deserializeNBT(nbt);
+            this.inv.deserializeNBT(nbt, registries);
         }
         if (this instanceof ITankHolder tankHolder) {
             if (tankHolder.keepFluid()) {
-                this.tank.readFromNBT(nbt);
+                this.tank.readFromNBT(nbt, registries);
             }
         }
     }
 
-    public CompoundTag writeStorable(CompoundTag nbt) {
+    public CompoundTag writeStorable(CompoundTag nbt, HolderLookup.Provider registries) {
         if (this instanceof IInventoryHolder && keepInventory()) {
-            nbt.merge(this.inv.serializeNBT());
+            nbt.merge(this.inv.serializeNBT(registries));
         }
         if (this instanceof ITankHolder tankHolder) {
             if (tankHolder.keepFluid()) {
-                this.tank.writeToNBT(nbt);
+                this.tank.writeToNBT(nbt, registries);
             }
         }
         return nbt;
@@ -156,7 +156,7 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
     public void onPlaced(Level world, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         CompoundTag tag = Stack.getTagOrEmpty(stack);
         if (!tag.isEmpty()) {
-            readStorable(tag.getCompound(NBT.TAG_STORABLE_STACK));
+            readStorable(tag.getCompound(NBT.TAG_STORABLE_STACK), level.registryAccess());
         }
     }
 
@@ -172,21 +172,13 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
     }
 
     public ItemStack storeToStack(ItemStack stack) {
-        CompoundTag nbt = writeStorable(new CompoundTag());
+        CompoundTag nbt = writeStorable(new CompoundTag(), level.registryAccess());
         CompoundTag nbt1 = Stack.getTagOrEmpty(stack);
         if (!nbt.isEmpty() && keepStorable()) {
             nbt1.put(NBT.TAG_STORABLE_STACK, nbt);
             stack.setTag(nbt1);
         }
         return stack;
-    }
-
-    public static <T extends AbstractTileEntity> T fromStack(ItemStack stack, T tile) {
-        CompoundTag nbt = stack.getTagElement(NBT.TAG_STORABLE_STACK);
-        if (nbt != null) {
-            tile.readStorable(nbt);
-        }
-        return tile;
     }
 
     public boolean keepStorable() {

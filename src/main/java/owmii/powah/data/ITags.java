@@ -6,6 +6,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 
 public class ITags {
     public static class Blocks {
@@ -40,11 +41,10 @@ public class ITags {
         }
     }
 
-    // Abstractions over Fabric tags for items
     public static class ItemAbstractions {
-        public static final TagKey<Item> GLASS = tag("glass_blocks");
-        public static final TagKey<Item> GLASS_PANES = tag("glass_panes");
-        public static final TagKey<Item> QUARTZ_BLOCKS = tag("quartz_blocks");
+        public static final TagKey<Item> GLASS = Tags.Items.GLASS_BLOCKS;
+        public static final TagKey<Item> GLASS_PANES = Tags.Items.GLASS_PANES;
+        public static final TagKey<Item> QUARTZ_BLOCKS = tag("storage_blocks/quartz");
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));

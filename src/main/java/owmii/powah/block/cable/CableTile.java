@@ -5,6 +5,7 @@ import com.google.common.primitives.Ints;
 import java.util.EnumSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -69,16 +70,16 @@ public class CableTile extends AbstractEnergyStorage<CableConfig, CableBlock> im
     }
 
     @Override
-    public void readSync(CompoundTag compound) {
-        super.readSync(compound);
+    public void readSync(CompoundTag compound, HolderLookup.Provider registries) {
+        super.readSync(compound, registries);
         readEnergySides(compound);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag compound) {
+    public CompoundTag writeSync(CompoundTag compound, HolderLookup.Provider registries) {
         writeEnergySides(compound);
 
-        return super.writeSync(compound);
+        return super.writeSync(compound, registries);
     }
 
     private void readEnergySides(CompoundTag compound) {

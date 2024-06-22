@@ -21,7 +21,7 @@ public record PassiveHeatSource(ResourceLocation id, Block block, int heat) {
     @Nullable
     public Fluid fluid() {
         if (block instanceof LiquidBlock liquidBlock) {
-            return liquidBlock.getFluid();
+            return liquidBlock.fluid;
         } else {
             return null;
         }

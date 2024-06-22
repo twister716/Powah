@@ -3,6 +3,7 @@ package owmii.powah.lib.block;
 import com.google.common.primitives.Ints;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -35,37 +36,37 @@ public abstract class AbstractEnergyStorage<C extends IEnergyConfig<Tier>, B ext
     }
 
     @Override
-    public void readSync(CompoundTag nbt) {
+    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
         this.sideConfig.read(nbt);
         if (!keepEnergy()) {
             this.energy.read(nbt, true, false);
         }
-        super.readSync(nbt);
+        super.readSync(nbt, registries);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt) {
+    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
         this.sideConfig.write(nbt);
         if (!keepEnergy()) {
             this.energy.write(nbt, true, false);
         }
-        return super.writeSync(nbt);
+        return super.writeSync(nbt, registries);
     }
 
     @Override
-    public void readStorable(CompoundTag nbt) {
+    public void readStorable(CompoundTag nbt, HolderLookup.Provider registries) {
         if (keepEnergy()) {
             this.energy.read(nbt, false, false);
         }
-        super.readStorable(nbt);
+        super.readStorable(nbt, registries);
     }
 
     @Override
-    public CompoundTag writeStorable(CompoundTag nbt) {
+    public CompoundTag writeStorable(CompoundTag nbt, HolderLookup.Provider registries) {
         if (keepEnergy()) {
             this.energy.write(nbt, false, false);
         }
-        return super.writeStorable(nbt);
+        return super.writeStorable(nbt, registries);
     }
 
     public boolean keepEnergy() {
