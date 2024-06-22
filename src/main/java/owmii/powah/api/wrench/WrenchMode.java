@@ -8,6 +8,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.component.FireworkExplosion;
 
 public enum WrenchMode implements StringRepresentable {
     CONFIG,
@@ -31,10 +32,7 @@ public enum WrenchMode implements StringRepresentable {
         return name().toLowerCase(Locale.ROOT);
     }
 
-    public static final Codec<WrenchMode> CODEC = new StringRepresentable.StringRepresentableCodec<>(
-            values(),
-            WrenchMode::valueOf,
-            WrenchMode::ordinal);
+    public static final Codec<WrenchMode> CODEC = StringRepresentable.fromValues(WrenchMode::values);
     public static final IntFunction<WrenchMode> BY_ID = ByIdMap.continuous(WrenchMode::ordinal, values(), ByIdMap.OutOfBoundsStrategy.WRAP);
     public static final StreamCodec<ByteBuf, WrenchMode> STREAM_CODEC = ByteBufCodecs.idMapper(BY_ID, WrenchMode::ordinal);
 }

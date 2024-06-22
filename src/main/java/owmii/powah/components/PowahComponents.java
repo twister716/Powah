@@ -17,10 +17,6 @@ public final class PowahComponents {
     public static final DeferredRegister<DataComponentType<?>> DR = DeferredRegister
             .create(Registries.DATA_COMPONENT_TYPE, Powah.MOD_ID);
 
-    public static final DataComponentType<EnergyBuffer> ENERGY_BUFFER = register("energy_buffer", builder -> builder
-            .persistent(EnergyBuffer.CODEC)
-            .networkSynchronized(EnergyBuffer.STREAM_CODEC));
-
     public static final DataComponentType<Long> ENERGY_STORED = register("energy_stored", builder -> builder
             .persistent(Codec.LONG)
             .networkSynchronized(ByteBufCodecs.VAR_LONG));

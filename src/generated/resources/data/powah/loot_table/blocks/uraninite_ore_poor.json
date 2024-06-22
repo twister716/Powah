@@ -13,25 +13,27 @@
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "minecraft:silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ],
-              "name": "powah:uraninite_ore"
+              "name": "minecraft:air"
             },
             {
               "type": "minecraft:item",
               "functions": [
                 {
                   "add": false,
-                  "count": 2.0,
+                  "count": 1.0,
                   "function": "minecraft:set_count"
                 },
                 {
@@ -51,5 +53,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "powah:blocks/uraninite_ore"
+  "random_sequence": "powah:blocks/uraninite_ore_poor"
 }
