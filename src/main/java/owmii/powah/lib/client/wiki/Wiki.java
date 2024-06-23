@@ -10,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -25,7 +24,6 @@ public class Wiki {
     public static final Marker MARKER = new MarkerManager.Log4jMarker("Wiki");
     private final List<Entry> categories = new ArrayList<>();
     private final Map<ItemLike, List<RecipeHolder<CraftingRecipe>>> crafting = new HashMap<>();
-    private final Map<ItemLike, List<RecipeHolder<SmeltingRecipe>>> smelting = new HashMap<>();
     private final String modId;
 
     public Wiki() {
@@ -60,10 +58,6 @@ public class Wiki {
         return this.crafting;
     }
 
-    public Map<ItemLike, List<RecipeHolder<SmeltingRecipe>>> getSmelting() {
-        return this.smelting;
-    }
-
     public String getModId() {
         return this.modId;
     }
@@ -78,7 +72,6 @@ public class Wiki {
 
     private void updateRecipes() {
         this.crafting.clear();
-        this.smelting.clear();
 
         var clientLevel = Minecraft.getInstance().level;
         if (clientLevel == null) {
@@ -98,13 +91,6 @@ public class Wiki {
                 }
             });
             this.crafting.put(item, crafting);
-            List<RecipeHolder<SmeltingRecipe>> smelting = new ArrayList<>();
-            recipeManager.getAllRecipesFor(RecipeType.SMELTING).forEach(holder -> {
-                if (holder.value().getResultItem(registryAccess).is(item)) {
-                    smelting.add(holder);
-                }
-            });
-            this.smelting.put(item, smelting);
         });
         watch.stop();
         Powah.LOGGER.info(MARKER, "Wiki recipes collecting completed in : {} ms", watch.getTime());

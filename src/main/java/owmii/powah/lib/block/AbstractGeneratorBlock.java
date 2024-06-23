@@ -36,15 +36,12 @@ public abstract class AbstractGeneratorBlock<B extends AbstractGeneratorBlock<B>
     @Override
     public InfoBox getInfoBox(ItemStack stack, InfoBox box) {
         Energy.ifPresent(stack, storage -> {
-            if (storage instanceof Energy.Item) {
-                Energy.Item energy = (Energy.Item) storage;
-                box.set(Component.translatable("info.lollipop.capacity"),
-                        Component.translatable("info.lollipop.fe", Util.addCommas(energy.getCapacity())));
-                box.set(Component.translatable("info.lollipop.generates"),
-                        Component.translatable("info.lollipop.fe.pet.tick", Util.addCommas(getConfig().getGeneration(this.variant))));
-                box.set(Component.translatable("info.lollipop.max.extract"),
-                        Component.translatable("info.lollipop.fe.pet.tick", Util.addCommas(energy.getMaxExtract())));
-            }
+            box.set(Component.translatable("info.lollipop.capacity"),
+                    Component.translatable("info.lollipop.fe", Util.addCommas(storage.getCapacity())));
+            box.set(Component.translatable("info.lollipop.generates"),
+                    Component.translatable("info.lollipop.fe.pet.tick", Util.addCommas(getConfig().getGeneration(this.variant))));
+            box.set(Component.translatable("info.lollipop.max.extract"),
+                    Component.translatable("info.lollipop.fe.pet.tick", Util.addCommas(storage.getMaxExtract())));
         });
         return box;
     }

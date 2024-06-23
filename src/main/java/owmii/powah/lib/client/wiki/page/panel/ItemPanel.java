@@ -7,9 +7,11 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.NotNull;
 import owmii.powah.Powah;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.client.screen.widget.IconButton;
@@ -49,12 +51,23 @@ public class ItemPanel<T extends ItemLike> extends Panel {
             return new ItemLike[0];
         } else {
             var id = BuiltInRegistries.ITEM.getKey(item.asItem());
-            if (item instanceof IVariantEntry variantEntry) {
-                id = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath().replace("_" + variantEntry.getVariant().getName(), ""));
+            if (item instanceof BlockItem blockItem && blockItem.getBlock() instanceof IVariantEntry<?, ?> variantEntry) {
+                id = getVariantBaseId(id, variantEntry.getVariant().getName());
+            } else if (item instanceof IVariantEntry<?, ?> variantEntry) {
+                id = getVariantBaseId(id, variantEntry.getVariant().getName());
             }
-            return VarReg.getSiblingIds(Objects.requireNonNull(id).getPath()).stream().map(rl -> BuiltInRegistries.ITEM.get(Powah.id(rl)))
+
+            return VarReg.getSiblingIds(Objects.requireNonNull(id).getPath())
+                    .stream()
+                    .map(rl -> BuiltInRegistries.ITEM.get(Powah.id(rl)))
+                    .filter(i -> i != Items.AIR)
                     .toArray(ItemLike[]::new);
         }
+    }
+
+    private static @NotNull ResourceLocation getVariantBaseId(ResourceLocation id, String variantEntry) {
+        id = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath().replace("_" + variantEntry, ""));
+        return id;
     }
 
     @Override
