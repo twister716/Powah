@@ -98,7 +98,7 @@ public class PowahEmiPlugin implements EmiPlugin {
     }
 
     private static void getExclusionAreas(Screen screen, Consumer<Bounds> consumer) {
-        if (screen instanceof AbstractContainerScreen<?>containerScreen) {
+        if (screen instanceof AbstractContainerScreen<?> containerScreen) {
             for (var extraArea : containerScreen.getExtraAreas()) {
                 consumer.accept(new Bounds(
                         extraArea.getX(),

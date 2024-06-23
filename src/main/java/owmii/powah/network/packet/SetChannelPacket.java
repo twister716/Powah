@@ -24,7 +24,7 @@ public record SetChannelPacket(BlockPos pos, int channel) implements Serverbound
 
     @Override
     public void handleOnServer(ServerPlayer player) {
-        if (player.serverLevel().getBlockEntity(pos) instanceof AbstractEnderTile<?>cell) {
+        if (player.serverLevel().getBlockEntity(pos) instanceof AbstractEnderTile<?> cell) {
             cell.getChannel().set(channel);
             cell.sync();
         }

@@ -99,7 +99,7 @@ sourceSets {
 processResources {
     inputs.property "version", project.version
 
-    filesMatching("META-INF/mods.toml") {
+    filesMatching("META-INF/neoforge.mods.toml") {
         filter { line ->
             line.replace 'version="0.0.0"', "version=\"$version\""
         }
