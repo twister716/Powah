@@ -68,7 +68,9 @@ public class IconButton extends Button {
     @Override
     protected void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float pt) {
         if (isHovered) {
-            setTooltip(createTooltip());
+            if (tooltipSupplier != null) {
+                setTooltip(createTooltip());
+            }
         }
 
         if (this.isHovered && !this.hovering.isEmpty()) {

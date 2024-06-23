@@ -1,6 +1,7 @@
 package owmii.powah.lib.client.screen.wiki;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import owmii.powah.lib.client.screen.ScreenBase;
@@ -53,7 +54,9 @@ public class WikiScreen extends ScreenBase {
         Texture.WIKI_BG_1.draw(gui, this.x + 28 + Texture.WIKI_BG_0.getWidth(), this.y);
         this.page.render(gui, this.x + 31, this.y + 3, mx, my, pt, this.font, this);
         this.panel.render(gui, this.x + 246, this.y + 3, mx, my, pt, this.font, this);
-        super.render(gui, mx, my, pt);
+        for (Renderable renderable : this.renderables) {
+            renderable.render(gui, mx, my, pt);
+        }
         if (!this.hoveredStack.isEmpty()) {
             gui.renderTooltip(font, this.hoveredStack, mx, my);
         }

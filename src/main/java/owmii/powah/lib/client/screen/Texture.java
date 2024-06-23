@@ -26,8 +26,7 @@ public class Texture {
     public static final Texture WIKI_ITM_NEXT = BUILDER.make("wiki/bg_1", 10, 18, 136, 66);
     public static final Texture WIKI_ITM_PREV = BUILDER.make("wiki/bg_1", 10, 18, 126, 66);
     public static final Texture WIKI_INF_LN_BG = BUILDER.make("wiki/bg_1", 143, 19, 0, 230);
-    public static final Texture WIKI_TWITTER = BUILDER.make("wiki/social/twitter", 12, 12);
-    public static final Texture WIKI_PATREON = BUILDER.make("wiki/social/patreon", 12, 12);
+    public static final Texture WIKI_DISCORD = BUILDER.make("wiki/social/discord", 12, 12);
 
     // Misc
     public static final Texture SLOT_HIGHLIGHT_BG = BUILDER.make("container/misc", 16, 16, 0, 0);

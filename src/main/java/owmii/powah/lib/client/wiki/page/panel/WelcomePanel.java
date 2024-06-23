@@ -15,8 +15,8 @@ import owmii.powah.lib.client.util.MC;
 import owmii.powah.lib.client.wiki.Section;
 
 public class WelcomePanel extends Panel {
-    private IconButton twitter = IconButton.EMPTY;
-    private IconButton patreon = IconButton.EMPTY;
+    private static final String DISCORD_URL = "https://discord.gg/Zd6t9ka7ne";
+    private IconButton discord = IconButton.EMPTY;
 
     public WelcomePanel(Section parent) {
         super(parent);
@@ -29,22 +29,14 @@ public class WelcomePanel extends Panel {
     @Override
     public void init(int x, int y, WikiScreen screen) {
         super.init(x, y, screen);
-        this.twitter = screen.addButton2(new IconButton(x + 8, y - 22 + screen.h, Texture.WIKI_TWITTER, button -> {
+        this.discord = screen.addButton2(new IconButton(x + 8, y - 22 + screen.h, Texture.WIKI_DISCORD, button -> {
             MC.get().setScreen(new ConfirmLinkScreen((b) -> {
                 if (b) {
-                    Util.getPlatform().openUri("https://twitter.com/_owmii");
+                    Util.getPlatform().openUri(DISCORD_URL);
                 }
                 MC.get().setScreen(screen);
-            }, "https://twitter.com/_owmii", true));
-        }, screen).setTooltipSupplier(() -> List.of(Component.literal("Follow me on Twitter!"))));
-        this.twitter = screen.addButton2(new IconButton(x + 24, y - 22 + screen.h, Texture.WIKI_PATREON, button -> {
-            MC.get().setScreen(new ConfirmLinkScreen((b) -> {
-                if (b) {
-                    Util.getPlatform().openUri("https://www.patreon.com/owmii");
-                }
-                MC.get().setScreen(screen);
-            }, "https://www.patreon.com/owmii", true));
-        }, screen).setTooltipSupplier(() -> List.of(Component.literal("Support me on Patreon! <3"))));
+            }, DISCORD_URL, true));
+        }, screen).setTooltipSupplier(() -> List.of(Component.literal("Chat with us on Discord!"))));
     }
 
     @Override
