@@ -1,6 +1,9 @@
 package owmii.powah.lib.client.wiki;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,6 +13,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
@@ -19,7 +23,6 @@ import owmii.powah.util.Util;
 
 public class Wiki {
     public static final Marker MARKER = new MarkerManager.Log4jMarker("Wiki");
-    public static final Map<String, Wiki> WIKIS = new HashMap<>();
     private final List<Entry> categories = new ArrayList<>();
     private final Map<ItemLike, List<RecipeHolder<CraftingRecipe>>> crafting = new HashMap<>();
     private final Map<ItemLike, List<RecipeHolder<SmeltingRecipe>>> smelting = new HashMap<>();
@@ -27,7 +30,8 @@ public class Wiki {
 
     public Wiki() {
         this.modId = Powah.MOD_ID;
-        WIKIS.put(this.modId, this);
+        updateRecipes();
+        NeoForge.EVENT_BUS.addListener((RecipesUpdatedEvent ignored) -> updateRecipes());
     }
 
     public Wiki e(String name, Consumer<Entry> consumer) {
@@ -72,29 +76,35 @@ public class Wiki {
         return Util.getModVersion(this.modId);
     }
 
-    public static void updateRecipes(RecipesUpdatedEvent event) {
-        var recipeManager = event.getRecipeManager();
-        var registryAccess = Minecraft.getInstance().level.registryAccess();
+    private void updateRecipes() {
+        this.crafting.clear();
+        this.smelting.clear();
+
+        var clientLevel = Minecraft.getInstance().level;
+        if (clientLevel == null) {
+            Powah.LOGGER.warn(MARKER, "Cannot update recipes since no clientlevel is available.");
+            return;
+        }
+        var registryAccess = clientLevel.registryAccess();
+        var recipeManager = clientLevel.getRecipeManager();
 
         StopWatch watch = StopWatch.createStarted();
         Powah.LOGGER.info(MARKER, "Started wikis recipes collecting...");
-        WIKIS.forEach((s, wiki) -> {
-            BuiltInRegistries.ITEM.stream().filter(i -> BuiltInRegistries.ITEM.getKey(i).getNamespace().equals(Powah.MOD_ID)).forEach(item -> {
-                List<RecipeHolder<CraftingRecipe>> crafting = new ArrayList<>();
-                recipeManager.getAllRecipesFor(RecipeType.CRAFTING).forEach(holder -> {
-                    if (holder.value().getResultItem(registryAccess).is(item)) {
-                        crafting.add(holder);
-                    }
-                });
-                wiki.crafting.put(item, crafting);
-                List<RecipeHolder<SmeltingRecipe>> smelting = new ArrayList<>();
-                recipeManager.getAllRecipesFor(RecipeType.SMELTING).forEach(holder -> {
-                    if (holder.value().getResultItem(registryAccess).is(item)) {
-                        smelting.add(holder);
-                    }
-                });
-                wiki.smelting.put(item, smelting);
+        BuiltInRegistries.ITEM.stream().filter(i -> BuiltInRegistries.ITEM.getKey(i).getNamespace().equals(Powah.MOD_ID)).forEach(item -> {
+            List<RecipeHolder<CraftingRecipe>> crafting = new ArrayList<>();
+            recipeManager.getAllRecipesFor(RecipeType.CRAFTING).forEach(holder -> {
+                if (holder.value().getResultItem(registryAccess).is(item)) {
+                    crafting.add(holder);
+                }
             });
+            this.crafting.put(item, crafting);
+            List<RecipeHolder<SmeltingRecipe>> smelting = new ArrayList<>();
+            recipeManager.getAllRecipesFor(RecipeType.SMELTING).forEach(holder -> {
+                if (holder.value().getResultItem(registryAccess).is(item)) {
+                    smelting.add(holder);
+                }
+            });
+            this.smelting.put(item, smelting);
         });
         watch.stop();
         Powah.LOGGER.info(MARKER, "Wiki recipes collecting completed in : {} ms", watch.getTime());

@@ -13,7 +13,6 @@ import owmii.powah.client.model.PowahLayerDefinitions;
 import owmii.powah.client.render.entity.EntityRenderer;
 import owmii.powah.client.render.tile.BlockEntityRenderers;
 import owmii.powah.client.screen.Screens;
-import owmii.powah.lib.client.wiki.Wiki;
 
 @Mod(value = Powah.MOD_ID, dist = Dist.CLIENT)
 public final class PowahClient {
@@ -26,7 +25,6 @@ public final class PowahClient {
         modEventBus.addListener(EntityRenderer::register);
         modEventBus.addListener(Screens::register);
         modEventBus.addListener(BlockEntityRenderers::register);
-        NeoForge.EVENT_BUS.addListener(Wiki::updateRecipes);
 
         NeoForge.EVENT_BUS.addListener((RenderLevelStageEvent event) -> {
             if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
